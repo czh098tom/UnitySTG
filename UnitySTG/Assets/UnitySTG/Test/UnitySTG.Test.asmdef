@@ -1,0 +1,17 @@
+{
+    "name": "UnitySTG.Test",
+    "rootNamespace": "UnitySTG.Test",
+    "references": [
+        "GUID:0717df6df64b81d40a8b002c36ffb606",
+        "GUID:0efc075be62ff074592f9ad36fcc4058"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
