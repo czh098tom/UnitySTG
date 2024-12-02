@@ -164,6 +164,23 @@ namespace UnitySTG.Abstractions
         }
         #endregion
 
+        #region bound
+
+        private bool _bound = true;
+        internal bool Bound
+        {
+            get => _bound;
+            set => _bound = value;
+        }
+
+        private BoundCheckType _boundType = BoundCheckType.XY;
+        internal BoundCheckType BoundType
+        {
+            get => _boundType;
+            set => _boundType = value;
+        }
+        #endregion
+
         public void OnCreated(long objectID)
         {
             State = GameObjectState.Alive;
@@ -179,6 +196,8 @@ namespace UnitySTG.Abstractions
             _colli = true;
             _a = 0;
             _b = 0;
+            _bound = true;
+            _boundType = BoundCheckType.XY;
         }
 
         public void OnFrame()

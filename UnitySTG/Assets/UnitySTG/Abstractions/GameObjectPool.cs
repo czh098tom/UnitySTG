@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 
 using Latticework.UnityEngine.Utilities;
+using Unity.Mathematics.FixedPoint;
 
 namespace UnitySTG.Abstractions
 {
@@ -26,6 +27,8 @@ namespace UnitySTG.Abstractions
         internal CallbackState State { get; private set; }
 
         private long _currObjID = 0L;
+
+        private fp4 _bounds = new fp4(-224, -256, 224, 256);
 
         private readonly CollisionChecker _collisionChecker = new();
 
@@ -169,6 +172,31 @@ namespace UnitySTG.Abstractions
             }
         }
 
+        public void CheckBounds()
+        {
+            for (var controller = _updateHead; controller != null; controller = controller.UpdateNext)
+            {
+                if (controller.Bound)
+                {
+                    bool l = controller.X < _bounds.x;
+                    bool r = controller.X > _bounds.z;
+                    bool b = controller.Y < _bounds.y;
+                    bool t = controller.Y > _bounds.w;
+                    if ((controller.BoundType & BoundCheckType.VXY) != 0)
+                    {
+                        l &= controller.VX < 0;
+                        r &= controller.VX > 0;
+                        b &= controller.VY < 0;
+                        t &= controller.VY > 0;
+                    }
+                    if (l || r || b || t)
+                    {
+                        controller.Del();
+                    }
+                }
+            }
+        }
+
         public void PerformKill()
         {
             for (var controller = _updateHead; controller != null; )
@@ -177,6 +205,10 @@ namespace UnitySTG.Abstractions
                 if (controller.State == GameObjectState.Dying)
                 {
                     Return(controller);
+                    if (_updateHead == controller)
+                    {
+                        _updateHead = next;
+                    }
                 }
                 controller = next;
             }

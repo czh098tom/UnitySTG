@@ -19,7 +19,9 @@ namespace UnitySTG.Abstractions
                 .ThenUpdateXY()
                 .ThenUpdateRot()
                 .ThenDoFrame()
-                .ThenDoCollisionCheck();
+                .ThenDoCollisionCheck()
+                .ThenCheckBounds()
+                .ThenPerformKill();
         }
 
         private void FixedUpdate()

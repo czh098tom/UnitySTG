@@ -14,7 +14,7 @@ namespace UnitySTG.Test
             long timer = 0;
             levelController.SetStage(() =>
             {
-                if (timer == 60)
+                if (timer > 0 && timer % 5 == 0)
                 {
                     for (int j = 0; j < 60; j++)
                     {
@@ -29,7 +29,7 @@ namespace UnitySTG.Test
         // Update is called once per frame
         void Update()
         {
-        
+
         }
     }
 }

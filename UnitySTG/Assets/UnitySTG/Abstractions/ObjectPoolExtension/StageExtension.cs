@@ -27,5 +27,15 @@ namespace UnitySTG.Abstractions.ObjectPoolExtension
         {
             return Stage.CreateThen(inner, () => GameObjectPool.Instance.CollisionCheck());
         }
+
+        public static IStage ThenCheckBounds(this IStage inner)
+        {
+            return Stage.CreateThen(inner, () => GameObjectPool.Instance.CheckBounds());
+        }
+
+        public static IStage ThenPerformKill(this IStage inner)
+        {
+            return Stage.CreateThen(inner, () => GameObjectPool.Instance.PerformKill());
+        }
     }
 }
