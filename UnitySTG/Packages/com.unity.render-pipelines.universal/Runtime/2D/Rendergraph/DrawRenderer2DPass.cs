@@ -134,7 +134,7 @@ namespace UnityEngine.Rendering.Universal
                     passData.isLitView = false;
 #endif
 
-                var drawSettings = CreateDrawingSettings(k_ShaderTags, renderingData, cameraData, lightData, SortingCriteria.CommonTransparent);
+                var drawSettings = CreateDrawingSettings(k_ShaderTags, renderingData, cameraData, lightData, SortingCriteria.CommonTransparent | SortingCriteria.RendererPriority);
                 var sortSettings = drawSettings.sortingSettings;
                 RendererLighting.GetTransparencySortingMode(rendererData, cameraData.camera, ref sortSettings);
                 drawSettings.sortingSettings = sortSettings;
