@@ -123,5 +123,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a50f066b44c574db76339448de733c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 5316786280117184915}
+  _renderer: {fileID: 5316786280117184915}
   _animator: {fileID: 3025030332854782137}

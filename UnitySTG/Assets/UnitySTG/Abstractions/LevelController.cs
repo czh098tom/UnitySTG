@@ -21,7 +21,8 @@ namespace UnitySTG.Abstractions
                 .ThenDoFrame()
                 .ThenDoCollisionCheck()
                 .ThenCheckBounds()
-                .ThenPerformKill();
+                .ThenPerformKill()
+                .ThenTryCompressLayerID();
         }
 
         private void FixedUpdate()

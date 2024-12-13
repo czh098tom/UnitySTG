@@ -14,6 +14,7 @@ namespace UnitySTG.Abstractions
     public class GameObjectPool : Singleton<GameObjectPool>
     {
         internal static readonly byte COLLISION_GROUP_MAX = 32;
+        internal static readonly int COMPRESS_THRESHOLD = int.MaxValue / 2;
 
         internal enum CallbackState
         {
@@ -26,9 +27,10 @@ namespace UnitySTG.Abstractions
 
         internal CallbackState State { get; private set; }
 
-        private long _currObjID = 0L;
+        private int _currObjID = 0;
+        private int _currObjCount = 0;
 
-        private fp4 _bounds = new fp4(-224, -256, 224, 256);
+        private fp4 _bounds = new(-224, -256, 224, 256);
 
         private readonly CollisionChecker _collisionChecker = new();
 
@@ -47,12 +49,14 @@ namespace UnitySTG.Abstractions
             }, actionOnGet: ctrl =>
             {
                 _currObjID++;
+                _currObjCount++;
                 ctrl.gameObject.SetActive(true);
                 ctrl.OnCreated(_currObjID);
                 AddToCollisionCheckLinkedList(ctrl);
                 AddToUpdateLinkedList(ctrl);
             }, actionOnRelease: ctrl =>
             {
+                _currObjCount--;
                 RemoveFromUpdateLinkedList(ctrl);
                 RemoveFromCollisionCheckLinkedList(ctrl);
                 ctrl.gameObject.SetActive(false);
@@ -240,6 +244,23 @@ namespace UnitySTG.Abstractions
                 }
             }
             State = CallbackState.Idle;
+        }
+
+        public void TryCompressObjectID()
+        {
+            if (_currObjID > COMPRESS_THRESHOLD && _currObjCount < byte.MaxValue)
+            {
+                GameObjectController last = _updateHead;
+                while (last != null && last.UpdateNext != null) last = last.UpdateNext;
+                GameObjectController curr = last;
+                int i = 0;
+                while (curr != null)
+                {
+                    curr.ObjectID = i;
+                    curr = curr.UpdatePrev;
+                }
+                _currObjID = i;
+            }
         }
     }
 }

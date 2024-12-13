@@ -11,17 +11,27 @@ namespace UnitySTG.Abstractions
 {
     internal class GameObjectController : MonoBehaviour
     {
-        [SerializeField] private Renderer _spriteRenderer;
+        [SerializeField] private Renderer _renderer;
         [SerializeField] private Animator _animator;
 
         internal LuaSTGObject _luaSTGObject;
+        private int _objectID;
 
         internal GameObjectState State { get; private set; }
-        internal long ObjectID { get; private set; }
         internal GameObjectController CollisionNext { get; set; }
         internal GameObjectController CollisionPrev { get; set; }
         internal GameObjectController UpdateNext { get; set; }
         internal GameObjectController UpdatePrev { get; set; }
+
+        internal int ObjectID
+        {
+            get => _objectID;
+            set
+            {
+                _objectID = value;
+                _renderer.rendererPriority = value;
+            }
+        }
 
         #region xy
         private fp _x;
@@ -181,7 +191,7 @@ namespace UnitySTG.Abstractions
         }
         #endregion
 
-        public void OnCreated(long objectID)
+        public void OnCreated(int objectID)
         {
             State = GameObjectState.Alive;
             ObjectID = objectID;

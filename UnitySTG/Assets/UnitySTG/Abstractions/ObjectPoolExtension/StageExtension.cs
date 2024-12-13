@@ -37,5 +37,10 @@ namespace UnitySTG.Abstractions.ObjectPoolExtension
         {
             return Stage.CreateThen(inner, () => GameObjectPool.Instance.PerformKill());
         }
+
+        public static IStage ThenTryCompressLayerID(this IStage inner)
+        {
+            return Stage.CreateThen(inner, () => GameObjectPool.Instance.TryCompressObjectID());
+        }
     }
 }
