@@ -8,39 +8,39 @@ namespace UnitySTG.Abstractions.ObjectPoolExtension
 {
     public static class StageExtension
     {
-        public static IStage ThenUpdateXY(this IStage inner)
+        public static IStage ThenUpdateXY(this IStage inner, ILevelServiceProvider levelServiceProvider)
         {
-            return Stage.CreateThen(inner, () => GameObjectPool.Instance.UpdateXY());
+            return Stage.CreateThen(inner, () => levelServiceProvider.Pool.UpdateXY());
         }
 
-        public static IStage ThenUpdateRot(this IStage inner)
+        public static IStage ThenUpdateRot(this IStage inner, ILevelServiceProvider levelServiceProvider)
         {
-            return Stage.CreateThen(inner, () => GameObjectPool.Instance.UpdateRot());
+            return Stage.CreateThen(inner, () => levelServiceProvider.Pool.UpdateRot());
         }
 
-        public static IStage ThenDoFrame(this IStage inner)
+        public static IStage ThenDoFrame(this IStage inner, ILevelServiceProvider levelServiceProvider)
         {
-            return Stage.CreateThen(inner, () => GameObjectPool.Instance.DoFrame());
+            return Stage.CreateThen(inner, () => levelServiceProvider.Pool.DoFrame());
         }
 
-        public static IStage ThenDoCollisionCheck(this IStage inner)
+        public static IStage ThenDoCollisionCheck(this IStage inner, ILevelServiceProvider levelServiceProvider)
         {
-            return Stage.CreateThen(inner, () => GameObjectPool.Instance.CollisionCheck());
+            return Stage.CreateThen(inner, () => levelServiceProvider.Pool.CollisionCheck());
         }
 
-        public static IStage ThenCheckBounds(this IStage inner)
+        public static IStage ThenCheckBounds(this IStage inner, ILevelServiceProvider levelServiceProvider)
         {
-            return Stage.CreateThen(inner, () => GameObjectPool.Instance.CheckBounds());
+            return Stage.CreateThen(inner, () => levelServiceProvider.Pool.CheckBounds());
         }
 
-        public static IStage ThenPerformKill(this IStage inner)
+        public static IStage ThenPerformKill(this IStage inner, ILevelServiceProvider levelServiceProvider)
         {
-            return Stage.CreateThen(inner, () => GameObjectPool.Instance.PerformKill());
+            return Stage.CreateThen(inner, () => levelServiceProvider.Pool.PerformKill());
         }
 
-        public static IStage ThenTryCompressLayerID(this IStage inner)
+        public static IStage ThenTryCompressLayerID(this IStage inner, ILevelServiceProvider levelServiceProvider)
         {
-            return Stage.CreateThen(inner, () => GameObjectPool.Instance.TryCompressObjectID());
+            return Stage.CreateThen(inner, () => levelServiceProvider.Pool.TryCompressObjectID());
         }
     }
 }

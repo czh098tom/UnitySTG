@@ -9,20 +9,24 @@ using UnitySTG.Abstractions.ObjectPoolExtension;
 
 namespace UnitySTG.Abstractions
 {
-    public class LevelController : MonoBehaviour
+    public class LevelController : MonoBehaviour, ILevelServiceProvider
     {
+        [SerializeField] private GameObjectPool _pool;
+
         private IStage _stage;
+
+        public GameObjectPool Pool => _pool;
 
         public void SetStage(Action frame)
         {
             _stage = Stage.Create(frame)
-                .ThenUpdateXY()
-                .ThenUpdateRot()
-                .ThenDoFrame()
-                .ThenDoCollisionCheck()
-                .ThenCheckBounds()
-                .ThenPerformKill()
-                .ThenTryCompressLayerID();
+                .ThenUpdateXY(this)
+                .ThenUpdateRot(this)
+                .ThenDoFrame(this)
+                .ThenDoCollisionCheck(this)
+                .ThenCheckBounds(this)
+                .ThenPerformKill(this)
+                .ThenTryCompressLayerID(this);
         }
 
         private void FixedUpdate()

@@ -370,6 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ba2ccbae1b0f6645a139800ad3de4ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pool: {fileID: 2048116063}
 --- !u!4 &734622775
 Transform:
   m_ObjectHideFlags: 0
@@ -428,6 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048d76c6f24d7ab4ab592babd1ac91d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _levelController: {fileID: 734622774}
   _prefab: {fileID: 8788833790036203993, guid: 1e12338ca4a7fa54a8f9ca51fb678f41, type: 3}
   _maxSize: 65536
 --- !u!4 &2048116064

@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
 
-using Latticework.UnityEngine.Utilities;
 using Unity.Mathematics.FixedPoint;
 
 namespace UnitySTG.Abstractions
 {
-    public class GameObjectPool : Singleton<GameObjectPool>
+    public class GameObjectPool : MonoBehaviour
     {
         internal static readonly byte COLLISION_GROUP_MAX = 32;
         internal static readonly int COMPRESS_THRESHOLD = int.MaxValue / 2;
@@ -22,6 +21,7 @@ namespace UnitySTG.Abstractions
             Collision,
         }
 
+        [SerializeField] private LevelController _levelController;
         [SerializeField] private GameObjectController _prefab;
         [SerializeField] private int _maxSize = 65536;
 
@@ -40,9 +40,8 @@ namespace UnitySTG.Abstractions
 
         private uint[] _collisionMasks = new uint[COLLISION_GROUP_MAX];
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
             _pool = new(() =>
             {
                 return Instantiate(_prefab, transform);
@@ -51,7 +50,7 @@ namespace UnitySTG.Abstractions
                 _currObjID++;
                 _currObjCount++;
                 ctrl.gameObject.SetActive(true);
-                ctrl.OnCreated(_currObjID);
+                ctrl.OnCreated(_levelController, _currObjID);
                 AddToCollisionCheckLinkedList(ctrl);
                 AddToUpdateLinkedList(ctrl);
             }, actionOnRelease: ctrl =>

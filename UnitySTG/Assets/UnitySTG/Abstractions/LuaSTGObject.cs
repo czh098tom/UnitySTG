@@ -164,9 +164,9 @@ namespace UnitySTG.Abstractions
             set => _controller.Style = value;
         }
 
-        public LuaSTGObject()
+        public LuaSTGObject(ILevelServiceProvider levelServiceProvider)
         {
-            _controller = GameObjectPool.Instance.Allocate();
+            _controller = levelServiceProvider.Pool.Allocate();
             _controller._luaSTGObject = this;
         }
 

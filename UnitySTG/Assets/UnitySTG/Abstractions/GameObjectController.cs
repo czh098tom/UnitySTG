@@ -16,6 +16,7 @@ namespace UnitySTG.Abstractions
         [SerializeField] private GameObject _defaultStyleTemplate;
         [SerializeField] private GameObject _defaultStyleTemplateInstance;
 
+        private ILevelServiceProvider _levelServiceProvider;
         private Dictionary<GameObject, GameObject> _cachedStyleTemplate;
 
         private GameObject _currentStyleTemplate;
@@ -125,9 +126,9 @@ namespace UnitySTG.Abstractions
             set
             {
                 ThrowIfInCollisionCheck();
-                GameObjectPool.Instance.RemoveFromCollisionCheckLinkedList(this);
+                _levelServiceProvider.Pool.RemoveFromCollisionCheckLinkedList(this);
                 _group = value;
-                GameObjectPool.Instance.AddToCollisionCheckLinkedList(this);
+                _levelServiceProvider.Pool.AddToCollisionCheckLinkedList(this);
             }
         }
 
@@ -143,11 +144,11 @@ namespace UnitySTG.Abstractions
                     _colli = value;
                     if (value)
                     {
-                        GameObjectPool.Instance.AddToCollisionCheckLinkedList(this);
+                        _levelServiceProvider.Pool.AddToCollisionCheckLinkedList(this);
                     }
                     else
                     {
-                        GameObjectPool.Instance.RemoveFromCollisionCheckLinkedList(this);
+                        _levelServiceProvider.Pool.RemoveFromCollisionCheckLinkedList(this);
                     }
                 }
             }
@@ -174,9 +175,9 @@ namespace UnitySTG.Abstractions
             set => _shape = value;
         }
 
-        private static void ThrowIfInCollisionCheck()
+        private void ThrowIfInCollisionCheck()
         {
-            if (GameObjectPool.Instance.State == GameObjectPool.CallbackState.Collision)
+            if (_levelServiceProvider.Pool.State == GameObjectPool.CallbackState.Collision)
             {
                 throw new InvalidOperationException("Group cannot be modified in collision check");
             }
@@ -255,8 +256,9 @@ namespace UnitySTG.Abstractions
             };
         }
 
-        public void OnCreated(int objectID)
+        public void OnCreated(ILevelServiceProvider levelServiceProvider, int objectID)
         {
+            _levelServiceProvider = levelServiceProvider;
             State = GameObjectState.Alive;
             ObjectID = objectID;
             _x = 0;

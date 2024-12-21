@@ -20,7 +20,7 @@ namespace UnitySTG.Test
                 {
                     for (int j = 0; j < 60; j++)
                     {
-                        var obj = new LuaSTGObject
+                        var obj = new LuaSTGObject(levelController)
                         {
                             Style = style
                         };
