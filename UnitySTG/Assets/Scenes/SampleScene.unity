@@ -398,6 +398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelController: {fileID: 734622774}
+  style: {fileID: 11400000, guid: 53f5c9b3fe823cf4baff9d3ddfd6bda3, type: 2}
 --- !u!1 &2048116062
 GameObject:
   m_ObjectHideFlags: 0

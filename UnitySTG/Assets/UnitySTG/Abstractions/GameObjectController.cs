@@ -13,6 +13,12 @@ namespace UnitySTG.Abstractions
     {
         [SerializeField] private Renderer _renderer;
         [SerializeField] private Animator _animator;
+        [SerializeField] private GameObject _defaultStyleTemplate;
+        [SerializeField] private GameObject _defaultStyleTemplateInstance;
+
+        private Dictionary<GameObject, GameObject> _cachedStyleTemplate;
+
+        private GameObject _currentStyleTemplate;
 
         internal LuaSTGObject _luaSTGObject;
         private int _objectID;
@@ -29,7 +35,10 @@ namespace UnitySTG.Abstractions
             set
             {
                 _objectID = value;
-                _renderer.rendererPriority = value;
+                if (_renderer != null)
+                {
+                    _renderer.rendererPriority = value;
+                }
             }
         }
 
@@ -191,6 +200,61 @@ namespace UnitySTG.Abstractions
         }
         #endregion
 
+        #region style
+        private IObjectStyle _style;
+        internal IObjectStyle Style
+        {
+            get => _style;
+            set
+            {
+                if (_style != value)
+                {
+                    ChangeStyle(value, _style);
+                    _style = value;
+                }
+            }
+        }
+
+        private void ChangeStyle(IObjectStyle @new, IObjectStyle original)
+        {
+            if (_currentStyleTemplate != null)
+            {
+                _currentStyleTemplate.SetActive(false);
+            }
+            if (@new != null)
+            {
+                var newTemplate = @new.GetTemplate();
+                if (original == null || newTemplate != original.GetTemplate())
+                {
+                    if (!_cachedStyleTemplate.TryGetValue(newTemplate, out var instance))
+                    {
+                        instance = Instantiate(newTemplate, transform);
+                        _cachedStyleTemplate.Add(newTemplate, instance);
+                    }
+                    _currentStyleTemplate = instance;
+                    _currentStyleTemplate.SetActive(true);
+                }
+                _animator = @new.GetAnimator(_currentStyleTemplate);
+                _renderer = @new.GetRenderer(_currentStyleTemplate);
+                _renderer.rendererPriority = _objectID;
+            }
+            else
+            {
+                _animator = null;
+                _renderer = null;
+                _currentStyleTemplate = null;
+            }
+        }
+        #endregion
+
+        private void Awake()
+        {
+            _cachedStyleTemplate = new()
+            {
+                [_defaultStyleTemplate] = _defaultStyleTemplateInstance
+            };
+        }
+
         public void OnCreated(int objectID)
         {
             State = GameObjectState.Alive;
@@ -208,6 +272,7 @@ namespace UnitySTG.Abstractions
             _b = 0;
             _bound = true;
             _boundType = BoundCheckType.XY;
+            Style = null;
         }
 
         public void OnFrame()

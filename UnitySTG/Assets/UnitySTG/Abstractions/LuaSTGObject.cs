@@ -158,6 +158,12 @@ namespace UnitySTG.Abstractions
         }
         #endregion
 
+        public IObjectStyle Style
+        {
+            get => _controller.Style;
+            set => _controller.Style = value;
+        }
+
         public LuaSTGObject()
         {
             _controller = GameObjectPool.Instance.Allocate();
