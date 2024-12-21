@@ -10,9 +10,9 @@ namespace UnitySTG.Abstractions
     {
         public bool CheckCollision(GameObjectController first, GameObjectController second)
         {
-            return (first.Shape, second.Shape) switch
+            return (first.ColliderShape, second.ColliderShape) switch
             {
-                (ColliderShape.Circle, ColliderShape.Circle) => CheckAsCircle(first, second),
+                (ColliderShape.Circular, ColliderShape.Circular) => CheckAsCircle(first, second),
                 (_, _) => CheckAsCircle(first, second),
             };
         }

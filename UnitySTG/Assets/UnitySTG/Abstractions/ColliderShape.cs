@@ -8,6 +8,7 @@ namespace UnitySTG.Abstractions
 {
     public enum ColliderShape
     {
-        Circle,
+        Circular,
+        Rectangular,
     }
 }

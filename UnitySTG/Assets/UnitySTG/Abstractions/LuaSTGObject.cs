@@ -143,17 +143,17 @@ namespace UnitySTG.Abstractions
             }
         }
 
-        public ColliderShape Shape
+        public ColliderShape ColliderShape
         {
             get
             {
                 ThrowIfDead();
-                return _controller.Shape;
+                return _controller.ColliderShape;
             }
             set
             {
                 ThrowIfDead();
-                _controller.Shape = value;
+                _controller.ColliderShape = value;
             }
         }
         #endregion

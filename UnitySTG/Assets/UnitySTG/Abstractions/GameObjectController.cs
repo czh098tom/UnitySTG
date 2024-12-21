@@ -168,11 +168,11 @@ namespace UnitySTG.Abstractions
             set => _b = value;
         }
 
-        private ColliderShape _shape;
-        internal ColliderShape Shape
+        private ColliderShape _colliderShape;
+        internal ColliderShape ColliderShape
         {
-            get => _shape;
-            set => _shape = value;
+            get => _colliderShape;
+            set => _colliderShape = value;
         }
 
         private void ThrowIfInCollisionCheck()
