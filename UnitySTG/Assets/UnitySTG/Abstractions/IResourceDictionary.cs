@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace UnitySTG.Abstractions
 {
-    public interface ILevelServiceProvider : IServiceProvider
+    public interface IResourceDictionary
     {
-        public GameObjectPool Pool { get; }
-
-        public IStageFinishCallback LifeCycle { get; }
     }
 }

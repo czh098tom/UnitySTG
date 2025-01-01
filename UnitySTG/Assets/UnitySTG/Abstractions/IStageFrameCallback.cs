@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace UnitySTG.Abstractions
 {
-    public interface IStage
+    public interface IStageFrameCallback
     {
-        public void OnFrame();
+        public void OnFrame(ILevelServiceProvider levelServiceProvider);
     }
 }

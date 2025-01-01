@@ -8,39 +8,39 @@ namespace UnitySTG.Abstractions.ObjectPoolExtension
 {
     public static class StageExtension
     {
-        public static IStage ThenUpdateXY(this IStage inner, ILevelServiceProvider levelServiceProvider)
+        public static IStageFrameCallback ThenUpdateXY(this IStageFrameCallback inner, ILevelServiceProvider levelServiceProvider)
         {
-            return Stage.CreateThen(inner, () => levelServiceProvider.Pool.UpdateXY());
+            return Stage.CreateThen(inner, _ => levelServiceProvider.Pool.UpdateXY());
         }
 
-        public static IStage ThenUpdateRot(this IStage inner, ILevelServiceProvider levelServiceProvider)
+        public static IStageFrameCallback ThenUpdateRot(this IStageFrameCallback inner, ILevelServiceProvider levelServiceProvider)
         {
-            return Stage.CreateThen(inner, () => levelServiceProvider.Pool.UpdateRot());
+            return Stage.CreateThen(inner, _ => levelServiceProvider.Pool.UpdateRot());
         }
 
-        public static IStage ThenDoFrame(this IStage inner, ILevelServiceProvider levelServiceProvider)
+        public static IStageFrameCallback ThenDoFrame(this IStageFrameCallback inner, ILevelServiceProvider levelServiceProvider)
         {
-            return Stage.CreateThen(inner, () => levelServiceProvider.Pool.DoFrame());
+            return Stage.CreateThen(inner, _ => levelServiceProvider.Pool.DoFrame());
         }
 
-        public static IStage ThenDoCollisionCheck(this IStage inner, ILevelServiceProvider levelServiceProvider)
+        public static IStageFrameCallback ThenDoCollisionCheck(this IStageFrameCallback inner, ILevelServiceProvider levelServiceProvider)
         {
-            return Stage.CreateThen(inner, () => levelServiceProvider.Pool.CollisionCheck());
+            return Stage.CreateThen(inner, _ => levelServiceProvider.Pool.CollisionCheck());
         }
 
-        public static IStage ThenCheckBounds(this IStage inner, ILevelServiceProvider levelServiceProvider)
+        public static IStageFrameCallback ThenCheckBounds(this IStageFrameCallback inner, ILevelServiceProvider levelServiceProvider)
         {
-            return Stage.CreateThen(inner, () => levelServiceProvider.Pool.CheckBounds());
+            return Stage.CreateThen(inner, _ => levelServiceProvider.Pool.CheckBounds());
         }
 
-        public static IStage ThenPerformKill(this IStage inner, ILevelServiceProvider levelServiceProvider)
+        public static IStageFrameCallback ThenPerformKill(this IStageFrameCallback inner, ILevelServiceProvider levelServiceProvider)
         {
-            return Stage.CreateThen(inner, () => levelServiceProvider.Pool.PerformKill());
+            return Stage.CreateThen(inner, _ => levelServiceProvider.Pool.PerformKill());
         }
 
-        public static IStage ThenTryCompressLayerID(this IStage inner, ILevelServiceProvider levelServiceProvider)
+        public static IStageFrameCallback ThenTryCompressLayerID(this IStageFrameCallback inner, ILevelServiceProvider levelServiceProvider)
         {
-            return Stage.CreateThen(inner, () => levelServiceProvider.Pool.TryCompressObjectID());
+            return Stage.CreateThen(inner, _ => levelServiceProvider.Pool.TryCompressObjectID());
         }
     }
 }

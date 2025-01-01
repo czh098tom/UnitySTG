@@ -2,6 +2,8 @@ using UnityEngine;
 
 using UnitySTG.Abstractions;
 using UnitySTG.Abstractions.Style;
+using UnitySTG.THSTG.Input;
+using UnitySTG.THSTG.Player;
 
 namespace UnitySTG.Test
 {
@@ -14,8 +16,28 @@ namespace UnitySTG.Test
         void Start()
         {
             long timer = 0;
-            levelController.SetStage(() =>
+            InputHandlingService inputHandlingService = null;
+            PlayerHostingService playerHostingService = null;
+            levelController.SetStage(levelServiceProvider =>
             {
+                if (inputHandlingService == null)
+                {
+                    inputHandlingService = levelServiceProvider.GetService<InputHandlingService>();
+                    inputHandlingService.InputModule = new TestKeyboardInput();
+                    inputHandlingService.OpenAxis(TestKeyboardInput.AXIS_X);
+                    inputHandlingService.OpenAxis(TestKeyboardInput.AXIS_Y);
+                    inputHandlingService.OpenAxis(TestKeyboardInput.AXIS_SLOW);
+                    inputHandlingService.OpenAxis(TestKeyboardInput.AXIS_SHOOT);
+                    inputHandlingService.OpenAxis(TestKeyboardInput.AXIS_BOMB);
+                }
+                if (playerHostingService == null)
+                {
+                    playerHostingService = levelServiceProvider.GetService<PlayerHostingService>();
+                    playerHostingService.OnInit(levelServiceProvider);
+                }
+
+                inputHandlingService.OnFrame(levelServiceProvider);
+
                 if (timer > 0 && timer % 5 == 0)
                 {
                     for (int j = 0; j < 60; j++)

@@ -1,9 +1,8 @@
 {
-    "name": "UnitySTG.Test",
+    "name": "UnitySTG.THSTG",
     "rootNamespace": "",
     "references": [
         "GUID:0717df6df64b81d40a8b002c36ffb606",
-        "GUID:00f16a9b5920036478ebca4fd37ddbcd",
         "GUID:0efc075be62ff074592f9ad36fcc4058"
     ],
     "includePlatforms": [],

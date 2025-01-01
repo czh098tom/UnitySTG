@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace UnitySTG.Abstractions
 {
-    public interface ILevelServiceProvider : IServiceProvider
+    public class ResourceProviderService : MonoBehaviour
     {
-        public GameObjectPool Pool { get; }
-
-        public IStageFinishCallback LifeCycle { get; }
     }
 }

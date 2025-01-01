@@ -13,11 +13,18 @@ namespace UnitySTG.Abstractions
     {
         [SerializeField] private GameObjectPool _pool;
 
-        private IStage _stage;
+        private IStageFrameCallback _stage;
 
         public GameObjectPool Pool => _pool;
 
-        public void SetStage(Action frame)
+        public IStageFinishCallback LifeCycle { get; internal set; }
+
+        public object GetService(Type serviceType)
+        {
+            return GetComponent(serviceType);
+        }
+
+        public void SetStage(Action<ILevelServiceProvider> frame)
         {
             _stage = Stage.Create(frame)
                 .ThenUpdateXY(this)
@@ -31,7 +38,7 @@ namespace UnitySTG.Abstractions
 
         private void FixedUpdate()
         {
-            _stage?.OnFrame();
+            _stage?.OnFrame(this);
         }
     }
 }
