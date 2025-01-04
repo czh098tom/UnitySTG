@@ -459,6 +459,7 @@ MonoBehaviour:
   _levelController: {fileID: 734622774}
   _prefab: {fileID: 8788833790036203993, guid: 1e12338ca4a7fa54a8f9ca51fb678f41, type: 3}
   _maxSize: 65536
+  <ColliderGizmoDescriptor>k__BackingField: {fileID: 11400000, guid: b0cb3e4004222064a8b87fbd0b075ea5, type: 2}
 --- !u!4 &2048116064
 Transform:
   m_ObjectHideFlags: 0

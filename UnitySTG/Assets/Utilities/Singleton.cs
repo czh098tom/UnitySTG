@@ -11,7 +11,26 @@ namespace Latticework.UnityEngine.Utilities
     {
         private static T instance = null;
 
-        public static T Instance { get => instance; }
+        public static T Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    var obj = FindFirstObjectByType<T>();
+                    if (obj != null)
+                    {
+                        instance = obj;
+                    }
+                    else
+                    {
+                        instance = new GameObject(typeof(T).Name).AddComponent<T>();
+                    }
+                    DontDestroyOnLoad(instance);
+                }
+                return instance;
+            }
+        }
 
         protected virtual void Awake()
         {

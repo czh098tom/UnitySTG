@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 using Unity.Mathematics.FixedPoint;
+using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
 
 namespace UnitySTG.Abstractions
 {
@@ -335,5 +337,27 @@ namespace UnitySTG.Abstractions
                 Rot = angle;
             }
         }
+
+#if UNITY_EDITOR
+        private void OnDrawGizmos()
+        {
+            var desc = _levelServiceProvider.Pool.ColliderGizmoDescriptor;
+            if (desc != null && desc.Info.TryGetValue(_group, out var info))
+            {
+                var color = Gizmos.color;
+                Gizmos.color = new Color(info.Color.r, info.Color.g, info.Color.b, info.Color.a * 0.75f);
+                transform.GetPositionAndRotation(out var pos, out var rot);
+                var mesh = _colliderShape switch
+                {
+                    ColliderShape.Circular => GizmoMeshProvider.Instance.Ellipse,
+                    _ => GizmoMeshProvider.Instance.Rect,
+                };
+                //Gizmos.DrawSphere(transform.position, (float)A);
+                Gizmos.DrawMesh(mesh, 0, pos, rot, new Vector3((float)A, (float)B, 1));
+                //Gizmos.DrawMesh(mesh, 0, Vector3.zero, Quaternion.identity, Vector3.one * 200);
+                Gizmos.color = color;
+            }
+        }
+#endif
     }
 }

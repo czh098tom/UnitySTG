@@ -14,6 +14,8 @@ namespace UnitySTG.THSTG
         public static readonly byte GROUP_PLAYER_BULLET = 3;
         public static readonly byte GROUP_PLAYER = 4;
         public static readonly byte GROUP_INDES = 5;
+        public static readonly byte GROUP_ITEM = 6;
         public static readonly byte GROUP_NONTJT = 7;
+        public static readonly byte GROUP_SPELL = 8;
     }
 }

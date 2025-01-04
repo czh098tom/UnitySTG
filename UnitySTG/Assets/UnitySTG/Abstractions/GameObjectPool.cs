@@ -222,7 +222,7 @@ namespace UnitySTG.Abstractions
 
         public void PerformKill()
         {
-            for (var controller = _updateHead; controller != null; )
+            for (var controller = _updateHead; controller != null;)
             {
                 var next = controller.UpdateNext;
                 if (controller.State == GameObjectState.Dying)
@@ -293,5 +293,9 @@ namespace UnitySTG.Abstractions
                 _currObjID = i;
             }
         }
+
+#if UNITY_EDITOR
+        [field: SerializeField] public ColliderGizmoDescriptor ColliderGizmoDescriptor { get; set; }
+#endif
     }
 }
