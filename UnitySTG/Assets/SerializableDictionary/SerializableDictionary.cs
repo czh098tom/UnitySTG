@@ -17,7 +17,7 @@ public abstract class SerializableDictionaryBase
 }
 
 [Serializable]
-public abstract class SerializableDictionaryBase<TKey, TValue, TValueStorage> : SerializableDictionaryBase, IDictionary<TKey, TValue>, IDictionary, ISerializationCallbackReceiver, IDeserializationCallback, ISerializable
+public abstract class SerializableDictionaryBase<TKey, TValue, TValueStorage> : SerializableDictionaryBase, IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>, IDictionary, ISerializationCallbackReceiver, IDeserializationCallback, ISerializable
 {
 	Dictionary<TKey, TValue> m_dict;
 	[SerializeField]
@@ -146,17 +146,22 @@ public abstract class SerializableDictionaryBase<TKey, TValue, TValueStorage> : 
 		return ((IDictionary<TKey, TValue>)m_dict).GetEnumerator();
 	}
 
-	#endregion
+    #endregion
 
-	#region IDictionary
+    #region IReadOnlyDictionary<TKey, TValue>
+    IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys => ((IReadOnlyDictionary<TKey, TValue>)m_dict).Keys;
+    IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => ((IReadOnlyDictionary<TKey, TValue>)m_dict).Values;
+    #endregion
 
-	public bool IsFixedSize { get { return ((IDictionary)m_dict).IsFixedSize; } }
+    #region IDictionary
+
+    public bool IsFixedSize { get { return ((IDictionary)m_dict).IsFixedSize; } }
 	ICollection IDictionary.Keys { get { return ((IDictionary)m_dict).Keys; } }
 	ICollection IDictionary.Values { get { return ((IDictionary)m_dict).Values; } }
 	public bool IsSynchronized { get { return ((IDictionary)m_dict).IsSynchronized; } }
 	public object SyncRoot { get { return ((IDictionary)m_dict).SyncRoot; } }
 
-	public object this[object key]
+    public object this[object key]
 	{
 		get { return ((IDictionary)m_dict)[key]; }
 		set { ((IDictionary)m_dict)[key] = value; }
