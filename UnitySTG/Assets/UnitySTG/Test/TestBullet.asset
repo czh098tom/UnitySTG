@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db11e369f917df44d830888194223c85, type: 3}
-  m_Name: New Default Style
+  m_Name: TestBullet
   m_EditorClassIdentifier: 
   _template: {fileID: 6546630252868660889, guid: 262aabce4405dc145bcf200ba75c4488, type: 3}

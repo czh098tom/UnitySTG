@@ -2,6 +2,8 @@ using UnityEngine;
 
 using UnitySTG.Abstractions;
 using UnitySTG.Abstractions.Style;
+using UnitySTG.THSTG;
+using UnitySTG.THSTG.Bullet;
 using UnitySTG.THSTG.Input;
 using UnitySTG.THSTG.Player;
 
@@ -18,6 +20,7 @@ namespace UnitySTG.Test
             long timer = 0;
             InputHandlingService inputHandlingService = null;
             PlayerHostingService playerHostingService = null;
+            GameObjectPool gameObjectPool = null;
             levelController.SetStage(levelServiceProvider =>
             {
                 if (inputHandlingService == null)
@@ -35,6 +38,11 @@ namespace UnitySTG.Test
                     playerHostingService = levelServiceProvider.GetService<PlayerHostingService>();
                     playerHostingService.OnInit(levelServiceProvider);
                 }
+                if (gameObjectPool == null)
+                {
+                    gameObjectPool = levelServiceProvider.Pool;
+                    gameObjectPool.SetCollisionCheck(BuiltInGroup.GROUP_PLAYER, BuiltInGroup.GROUP_ENEMY_BULLET, true);
+                }
 
                 inputHandlingService.OnFrame(levelServiceProvider);
 
@@ -42,7 +50,7 @@ namespace UnitySTG.Test
                 {
                     for (int j = 0; j < 60; j++)
                     {
-                        var obj = new LuaSTGObject(levelController)
+                        var obj = new BulletBase(levelController)
                         {
                             Style = style
                         };

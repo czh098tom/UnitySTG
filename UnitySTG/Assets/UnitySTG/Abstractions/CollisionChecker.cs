@@ -38,7 +38,7 @@ namespace UnitySTG.Abstractions
             }
 
             //外接圆碰撞检测，没发生碰撞则直接PASS
-            if (CircleCircle(p1.X, p1.Y, p1Cr, p2.X, p2.Y, p2Cr))
+            if (!CircleCircle(p1.X, p1.Y, p1Cr, p2.X, p2.Y, p2Cr))
             {
                 return false;
             }

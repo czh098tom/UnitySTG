@@ -101,6 +101,20 @@ namespace UnitySTG.Abstractions
         #endregion
 
         #region colli
+        public byte Group
+        {
+            get
+            {
+                ThrowIfDead();
+                return _controller.Group;
+            }
+            set
+            {
+                ThrowIfDead();
+                _controller.Group = value;
+            }
+        }
+
         public fp A
         {
             get
@@ -158,10 +172,32 @@ namespace UnitySTG.Abstractions
         }
         #endregion
 
+        public int Layer
+        {
+            get
+            {
+                ThrowIfDead();
+                return _controller.Layer;
+            }
+            set
+            {
+                ThrowIfDead();
+                _controller.Layer = value;
+            }
+        }
+
         public IObjectStyle Style
         {
-            get => _controller.Style;
-            set => _controller.Style = value;
+            get
+            {
+                ThrowIfDead();
+                return _controller.Style;
+            }
+            set
+            {
+                ThrowIfDead(); 
+                _controller.Style = value;
+            }
         }
 
         public LuaSTGObject(ILevelServiceProvider levelServiceProvider)

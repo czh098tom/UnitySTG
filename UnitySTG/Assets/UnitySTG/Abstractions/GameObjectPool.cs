@@ -75,38 +75,48 @@ namespace UnitySTG.Abstractions
 
         internal void AddToCollisionCheckLinkedList(GameObjectController ctrl)
         {
-            var originalHead = _collisionCheckLinkedList[0];
+            var originalHead = _collisionCheckLinkedList[ctrl.Group];
             ctrl.CollisionNext = originalHead;
             ctrl.CollisionPrev = null;
             if (originalHead != null)
             {
                 originalHead.CollisionPrev = ctrl;
             }
-            _collisionCheckLinkedList[0] = ctrl;
+            ctrl.InCollisionList = true;
+            _collisionCheckLinkedList[ctrl.Group] = ctrl;
         }
 
         internal void RemoveFromCollisionCheckLinkedList(GameObjectController ctrl)
         {
             var originalNext = ctrl.CollisionNext;
             var originalPrev = ctrl.CollisionPrev;
-            if (originalNext != null)
-            {
-                originalNext.CollisionPrev = originalPrev;
-                if (originalPrev == null)
-                {
-                    _collisionCheckLinkedList[ctrl.Group] = originalNext;
-                }
-            }
-            if (originalPrev != null)
-            {
-                originalPrev.CollisionNext = originalNext;
-            }
-            else
+            if (ctrl.InCollisionList)
             {
                 if (originalNext != null)
                 {
-                    _collisionCheckLinkedList[ctrl.Group] = originalNext;
+                    if (originalPrev != null)
+                    {
+                        originalNext.CollisionPrev = originalPrev;
+                        originalPrev.CollisionNext = originalNext;
+                    }
+                    else
+                    {
+                        originalNext.CollisionPrev = originalPrev;
+                        _collisionCheckLinkedList[ctrl.Group] = originalNext;
+                    }
                 }
+                else
+                {
+                    if (originalPrev != null)
+                    {
+                        originalPrev.CollisionNext = originalNext;
+                    }
+                    else
+                    {
+                        _collisionCheckLinkedList[ctrl.Group] = originalNext;
+                    }
+                }
+                ctrl.InCollisionList = false;
             }
             ctrl.CollisionNext = null;
             ctrl.CollisionPrev = null;
@@ -121,6 +131,7 @@ namespace UnitySTG.Abstractions
             {
                 originalHead.UpdatePrev = ctrl;
             }
+            ctrl.InUpdateList = true;
             _updateHead = ctrl;
         }
 
@@ -128,24 +139,33 @@ namespace UnitySTG.Abstractions
         {
             var originalNext = ctrl.UpdateNext;
             var originalPrev = ctrl.UpdatePrev;
-            if (originalNext != null)
-            {
-                originalNext.UpdatePrev = originalPrev;
-                if (originalPrev == null)
-                {
-                    _updateHead = originalNext;
-                }
-            }
-            if (originalPrev != null)
-            {
-                originalPrev.UpdateNext = originalNext;
-            }
-            else
+            if (ctrl.InUpdateList)
             {
                 if (originalNext != null)
                 {
-                    _updateHead = originalNext;
+                    if (originalPrev != null)
+                    {
+                        originalNext.UpdatePrev = originalPrev;
+                        originalPrev.UpdateNext = originalNext;
+                    }
+                    else
+                    {
+                        originalNext.UpdatePrev = originalPrev;
+                        _updateHead = originalNext;
+                    }
                 }
+                else
+                {
+                    if (originalPrev != null)
+                    {
+                        originalPrev.UpdateNext = originalNext;
+                    }
+                    else
+                    {
+                        _updateHead = originalNext;
+                    }
+                }
+                ctrl.InUpdateList = false;
             }
             ctrl.UpdateNext = null;
             ctrl.UpdatePrev = null;
@@ -214,6 +234,18 @@ namespace UnitySTG.Abstractions
                     }
                 }
                 controller = next;
+            }
+        }
+
+        public void SetCollisionCheck(byte first, byte second, bool isOn)
+        {
+            if (first < 0 && first >= COLLISION_GROUP_MAX) return;
+            if (second < 0 && second >= COLLISION_GROUP_MAX) return;
+            var v = _collisionMasks[first];
+            _collisionMasks[first] = v & ~((uint)0b1 << second);
+            if (isOn)
+            {
+                _collisionMasks[first] |= (uint)0b1 << second;
             }
         }
 

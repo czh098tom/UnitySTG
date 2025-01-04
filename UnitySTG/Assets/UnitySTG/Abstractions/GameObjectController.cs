@@ -27,8 +27,10 @@ namespace UnitySTG.Abstractions
         internal GameObjectState State { get; private set; }
         internal GameObjectController CollisionNext { get; set; }
         internal GameObjectController CollisionPrev { get; set; }
+        internal bool InCollisionList { get; set; }
         internal GameObjectController UpdateNext { get; set; }
         internal GameObjectController UpdatePrev { get; set; }
+        internal bool InUpdateList { get; set; }
 
         internal int ObjectID
         {
@@ -40,6 +42,16 @@ namespace UnitySTG.Abstractions
                 {
                     _renderer.rendererPriority = value;
                 }
+            }
+        }
+
+        private void SetRenderer(Renderer value)
+        {
+            _renderer = value;
+            if (_renderer != null)
+            {
+                _renderer.rendererPriority = _objectID;
+                _renderer.sortingOrder = _layer;
             }
         }
 
@@ -236,8 +248,7 @@ namespace UnitySTG.Abstractions
                     _currentStyleTemplate.SetActive(true);
                 }
                 _animator = @new.GetAnimator(_currentStyleTemplate);
-                _renderer = @new.GetRenderer(_currentStyleTemplate);
-                _renderer.rendererPriority = _objectID;
+                SetRenderer(@new.GetRenderer(_currentStyleTemplate));
             }
             else
             {
@@ -247,6 +258,20 @@ namespace UnitySTG.Abstractions
             }
         }
         #endregion
+
+        private int _layer;
+        internal int Layer
+        {
+            get => _layer;
+            set
+            {
+                _layer = value;
+                if (_renderer != null)
+                {
+                    _renderer.sortingOrder = value;
+                }
+            }
+        }
 
         private void Awake()
         {

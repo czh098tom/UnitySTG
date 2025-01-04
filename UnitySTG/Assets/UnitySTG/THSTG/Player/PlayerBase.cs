@@ -21,6 +21,12 @@ namespace UnitySTG.THSTG.Player
         {
             this.playerHostingService = playerHostingService;
             this.inputHandlingService = inputHandlingService;
+
+            Group = BuiltInGroup.GROUP_PLAYER;
+            A = 0.5M;
+            B = 0.5M;
+
+            Layer = BuiltInLayer.LAYER_PLAYER;
         }
 
         protected override void OnFrame()
@@ -36,6 +42,12 @@ namespace UnitySTG.THSTG.Player
 
             X += speed * x;
             Y += speed * y;
+        }
+
+        protected override void OnColli(LuaSTGObject other)
+        {
+            base.OnColli(other);
+            UnityEngine.Debug.Log("Collision");
         }
     }
 }
