@@ -1,11 +1,16 @@
+using System;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 using UnitySTG.Abstractions;
 using UnitySTG.Abstractions.Style;
+using UnitySTG.Abstractions.ObjectPoolExtension;
 using UnitySTG.THSTG;
 using UnitySTG.THSTG.Bullet;
 using UnitySTG.THSTG.Input;
 using UnitySTG.THSTG.Player;
+using UnitySTG.THSTG.Stage.Extension;
+using UnitySTG.THSTG.UserSettings;
 
 namespace UnitySTG.Test
 {
@@ -18,34 +23,8 @@ namespace UnitySTG.Test
         void Start()
         {
             long timer = 0;
-            InputHandlingService inputHandlingService = null;
-            PlayerHostingService playerHostingService = null;
-            GameObjectPool gameObjectPool = null;
-            levelController.SetStage(levelServiceProvider =>
+            void Script(ILevelServiceProvider _)
             {
-                if (inputHandlingService == null)
-                {
-                    inputHandlingService = levelServiceProvider.GetService<InputHandlingService>();
-                    inputHandlingService.InputModule = new TestKeyboardInput();
-                    inputHandlingService.OpenAxis(TestKeyboardInput.AXIS_X);
-                    inputHandlingService.OpenAxis(TestKeyboardInput.AXIS_Y);
-                    inputHandlingService.OpenAxis(TestKeyboardInput.AXIS_SLOW);
-                    inputHandlingService.OpenAxis(TestKeyboardInput.AXIS_SHOOT);
-                    inputHandlingService.OpenAxis(TestKeyboardInput.AXIS_BOMB);
-                }
-                if (playerHostingService == null)
-                {
-                    playerHostingService = levelServiceProvider.GetService<PlayerHostingService>();
-                    playerHostingService.OnInit(levelServiceProvider);
-                }
-                if (gameObjectPool == null)
-                {
-                    gameObjectPool = levelServiceProvider.Pool;
-                    gameObjectPool.SetCollisionCheck(BuiltInGroup.GROUP_PLAYER, BuiltInGroup.GROUP_ENEMY_BULLET, true);
-                }
-
-                inputHandlingService.OnFrame(levelServiceProvider);
-
                 if (timer > 0 && timer % 5 == 0)
                 {
                     for (int j = 0; j < 60; j++)
@@ -58,13 +37,31 @@ namespace UnitySTG.Test
                     }
                 }
                 timer++;
-            });
-        }
+            }
 
-        // Update is called once per frame
-        void Update()
-        {
+            var lifeCycle = new LuaSTGLifeCycleService(_ => UniTask.CompletedTask);
+            var factory = new StageDescriptorFactory()
+                .ModifyStageInit(init => init.Append(provider =>
+                {
+                    provider.GetService<UserSettingsProvider>().InputModule = new TestKeyboardInput();
+                }))
+                .ModifyStageFrame(c => c.Append(Script))
+                .AddInputHandling((provider, service) =>
+                {
+                    service.OpenAxis(TestKeyboardInput.AXIS_X);
+                    service.OpenAxis(TestKeyboardInput.AXIS_Y);
+                    service.OpenAxis(TestKeyboardInput.AXIS_SLOW);
+                    service.OpenAxis(TestKeyboardInput.AXIS_SHOOT);
+                    service.OpenAxis(TestKeyboardInput.AXIS_BOMB);
+                })
+                .AppendStageInit<PlayerHostingService>()
+                .ModifyStageInit(init => init.Append(provider =>
+                {
+                    provider.Pool.SetCollisionCheck(BuiltInGroup.GROUP_PLAYER, BuiltInGroup.GROUP_ENEMY_BULLET, true);
+                }))
+                .ModifyStageFrame(frame => frame.AttachDefault());
 
+            lifeCycle.LoadAndStartGame(factory.Create(), null, default).SuppressCancellationThrow().Forget();
         }
     }
 }

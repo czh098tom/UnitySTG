@@ -6,23 +6,9 @@ using System.Threading.Tasks;
 
 namespace UnitySTG.Abstractions
 {
-    public class StageDescriptor
-    {
-        public IStageResourceLoadingCallback StageResourceLoadingCallback { get; private set; }
-        public IStageInitializationCallback StageInitializationCallback { get; private set; }
-        public IStageFrameCallback StageFrameCallback { get; private set; }
-        public IStageFinishCallback StageFinishCallback { get; private set; }
-
-        public StageDescriptor(
-            IStageResourceLoadingCallback stageResourceLoadingCallback, 
-            IStageInitializationCallback stageInitializationCallback, 
-            IStageFrameCallback stageFrameCallback, 
-            IStageFinishCallback stageFinishCallback)
-        {
-            StageResourceLoadingCallback = stageResourceLoadingCallback;
-            StageInitializationCallback = stageInitializationCallback;
-            StageFrameCallback = stageFrameCallback;
-            StageFinishCallback = stageFinishCallback;
-        }
-    }
+    public record StageDescriptor(
+        IStageResourceLoadingCallback StageResourceLoadingCallback,
+        IStageInitializationCallback StageInitializationCallback,
+        IStageFrameCallback StageFrameCallback,
+        IStageFinishCallback StageFinishCallback);
 }

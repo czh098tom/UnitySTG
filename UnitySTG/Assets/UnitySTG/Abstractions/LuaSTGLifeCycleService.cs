@@ -14,7 +14,7 @@ namespace UnitySTG.Abstractions
 
         public event EventHandler<StageDescriptor> OnStartLoading;
         public event EventHandler<StageDescriptor> OnLoadingSuccess;
-        public event EventHandler<Exception> OnLoadFailed;
+        public event EventHandler<Exception> OnLoadingFailed;
 
         private StageDescriptor _stageDescriptor;
 
@@ -23,23 +23,23 @@ namespace UnitySTG.Abstractions
             _createStageFactory = createStageFactory;
         }
 
-        public async UniTask LoadAndStartGame(StageDescriptor stageDescriptor, CancellationToken cancellationToken)
+        public async UniTask LoadAndStartGame(StageDescriptor stageDescriptor, IProgress<float> progress, CancellationToken cancellationToken)
         {
             _stageDescriptor = stageDescriptor;
             OnStartLoading?.Invoke(this, stageDescriptor);
             try
             {
-                var resourceDictionary = await stageDescriptor.StageResourceLoadingCallback.LoadResources(cancellationToken);
+                var resourceDictionary = await stageDescriptor.StageResourceLoadingCallback.LoadResources(progress, cancellationToken);
                 await _createStageFactory(cancellationToken);
                 OnLoadingSuccess?.Invoke(this, stageDescriptor);
                 var controller = UnityEngine.Object.FindFirstObjectByType<LevelController>();
                 controller.LifeCycle = stageDescriptor.StageFinishCallback;
                 stageDescriptor.StageInitializationCallback.OnInit(controller);
-                controller.SetStage(stageDescriptor.StageFrameCallback.OnFrame);
+                controller.SetStage(stageDescriptor.StageFrameCallback);
             }
             catch (Exception e)
             {
-                OnLoadFailed?.Invoke(this, e);
+                OnLoadingFailed?.Invoke(this, e);
             }
         }
 

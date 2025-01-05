@@ -7,14 +7,19 @@ using Unity.Mathematics.FixedPoint;
 using UnityEngine;
 
 using UnitySTG.Abstractions;
+using UnitySTG.THSTG.Stage;
+using UnitySTG.THSTG.UserSettings;
 
 namespace UnitySTG.THSTG.Input
 {
-    public class InputHandlingService : MonoBehaviour, IStageFrameCallback
+    public class InputHandlingService : MonoBehaviour, IStageFrameCallback, IStageInitializationCallback
     {
-        public IInputModule InputModule { get; set; }
-        public IReplayReader ReplayReader { get; set; }
-        public IReplayWriter ReplayWriter { get; set; }
+        public IInputModule InputModule => userSettingsProvider.InputModule;
+        public IReplayReader ReplayReader => stageConfigurationProvider.ReplayReader;
+        public IReplayWriter ReplayWriter => stageConfigurationProvider.ReplayWriter;
+
+        private UserSettingsProvider userSettingsProvider;
+        private StageConfigurationProvider stageConfigurationProvider;
 
         private readonly Queue<InputAxis> pendingInput = new();
         private readonly Dictionary<int, fp> currentAxisValue = new();
@@ -24,6 +29,12 @@ namespace UnitySTG.THSTG.Input
         {
             currentAxisValue.Add(axisIndex, 0M);
             openedAxis.Add(axisIndex);
+        }
+
+        public void OnInit(ILevelServiceProvider levelServiceProvider)
+        {
+            userSettingsProvider = levelServiceProvider.GetService<UserSettingsProvider>();
+            stageConfigurationProvider = levelServiceProvider.GetService<StageConfigurationProvider>();
         }
 
         public void OnFrame(ILevelServiceProvider levelServiceProvider)

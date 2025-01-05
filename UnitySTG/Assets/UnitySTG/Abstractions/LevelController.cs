@@ -24,16 +24,9 @@ namespace UnitySTG.Abstractions
             return GetComponent(serviceType);
         }
 
-        public void SetStage(Action<ILevelServiceProvider> frame)
+        public void SetStage(IStageFrameCallback stageFrameCallback)
         {
-            _stage = Stage.Create(frame)
-                .ThenUpdateXY(this)
-                .ThenUpdateRot(this)
-                .ThenDoFrame(this)
-                .ThenDoCollisionCheck(this)
-                .ThenCheckBounds(this)
-                .ThenPerformKill(this)
-                .ThenTryCompressLayerID(this);
+            _stage = stageFrameCallback;
         }
 
         private void FixedUpdate()
