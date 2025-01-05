@@ -32,7 +32,7 @@ namespace UnitySTG.Test
             fp scale = 1M;
             if (x != 0 && y != 0)
             {
-                scale = fpmath.SQRT2;
+                scale = fpmath.SQRT2 / 2M;
             }
             if (x != 0)
             {

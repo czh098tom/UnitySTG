@@ -172,6 +172,36 @@ namespace UnitySTG.Abstractions
         }
         #endregion
 
+        #region bound
+        public bool Bound
+        {
+            get
+            {
+                ThrowIfDead();
+                return _controller.Bound;
+            }
+            set
+            {
+                ThrowIfDead();
+                _controller.Bound = value;
+            }
+        }
+
+        public BoundCheckType BoundType
+        {
+            get
+            {
+                ThrowIfDead();
+                return _controller.BoundType;
+            }
+            set
+            {
+                ThrowIfDead();
+                _controller.BoundType = value;
+            }
+        }
+        #endregion
+
         public int Layer
         {
             get

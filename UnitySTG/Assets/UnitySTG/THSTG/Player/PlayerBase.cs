@@ -26,6 +26,8 @@ namespace UnitySTG.THSTG.Player
             A = 0.5M;
             B = 0.5M;
 
+            Bound = false;
+
             Layer = BuiltInLayer.LAYER_PLAYER;
         }
 
@@ -42,6 +44,11 @@ namespace UnitySTG.THSTG.Player
 
             X += speed * x;
             Y += speed * y;
+
+            X = fpmath.min(X, playerHostingService.BoundsMax.x);
+            X = fpmath.max(X, playerHostingService.BoundsMin.x);
+            Y = fpmath.min(Y, playerHostingService.BoundsMax.y);
+            Y = fpmath.max(Y, playerHostingService.BoundsMin.y);
         }
 
         protected override void OnColli(LuaSTGObject other)
