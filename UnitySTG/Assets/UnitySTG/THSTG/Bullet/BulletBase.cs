@@ -8,7 +8,7 @@ using UnitySTG.Abstractions;
 
 namespace UnitySTG.THSTG.Bullet
 {
-    public class BulletBase : LuaSTGObject
+    public class BulletBase : ComponentObject
     {
         public BulletBase(ILevelServiceProvider levelServiceProvider) : base(levelServiceProvider)
         {
