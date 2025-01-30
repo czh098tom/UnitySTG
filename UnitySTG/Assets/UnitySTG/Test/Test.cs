@@ -12,6 +12,7 @@ using UnitySTG.THSTG.Player;
 using UnitySTG.THSTG.Stage.Extension;
 using UnitySTG.THSTG.UserSettings;
 using UnitySTG.THSTG.Threading;
+using UnitySTG.THSTG.Stage;
 
 namespace UnitySTG.Test
 {
@@ -33,6 +34,7 @@ namespace UnitySTG.Test
 
             async LuaTask Run(ILevelServiceProvider levelServiceProvider)
             {
+                int i = 0;
                 while (true)
                 {
                     await LuaTask.Delay(5);
@@ -42,8 +44,9 @@ namespace UnitySTG.Test
                         {
                             Style = style
                         };
-                        obj.SetV2(3, j * 6);
+                        obj.SetV2(3, j * 6 + i * 6 * 0.618M);
                     }
+                    i++;
                 }
             }
 
@@ -65,6 +68,7 @@ namespace UnitySTG.Test
                 })
                 .AppendStageInit<PlayerHostingService>()
                 .AppendStageInit<LuaTaskScheduler>()
+                .AppendStageInit<PauseController>()
                 .ModifyStageInit(init => init.Append(provider =>
                 {
                     provider.Pool.SetCollisionCheck(BuiltInGroup.GROUP_PLAYER, BuiltInGroup.GROUP_ENEMY_BULLET, true);

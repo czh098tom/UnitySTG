@@ -20,6 +20,7 @@ namespace UnitySTG.THSTG.Input
 
         private UserSettingsProvider userSettingsProvider;
         private StageConfigurationProvider stageConfigurationProvider;
+        private PauseController pauseController;
 
         private readonly Queue<InputAxis> pendingInput = new();
         private readonly Dictionary<int, fp> currentAxisValue = new();
@@ -35,6 +36,7 @@ namespace UnitySTG.THSTG.Input
         {
             userSettingsProvider = levelServiceProvider.GetService<UserSettingsProvider>();
             stageConfigurationProvider = levelServiceProvider.GetService<StageConfigurationProvider>();
+            pauseController = levelServiceProvider.GetService<PauseController>();
         }
 
         public void OnFrame(ILevelServiceProvider levelServiceProvider)
@@ -74,7 +76,7 @@ namespace UnitySTG.THSTG.Input
 
         private void Update()
         {
-            if (InputModule != null)
+            if (InputModule != null && !pauseController.IsPause)
             {
                 foreach (var axises in InputModule.ConvertAxis())
                 {

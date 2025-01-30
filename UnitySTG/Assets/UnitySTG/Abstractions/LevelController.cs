@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-using UnitySTG.Abstractions.ObjectPoolExtension;
-
 namespace UnitySTG.Abstractions
 {
     public class LevelController : MonoBehaviour, ILevelServiceProvider
