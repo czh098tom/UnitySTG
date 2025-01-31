@@ -7,7 +7,7 @@ using UnitySTG.Abstractions;
 
 namespace UnitySTG.THSTG
 {
-    public interface IComponent
+    public interface IComponent : IDisposable
     {
         void OnColli(LuaSTGObject other);
         void OnFrame();

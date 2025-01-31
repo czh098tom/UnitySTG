@@ -10,7 +10,7 @@ namespace UnitySTG.Abstractions
     public interface IObjectStyle
     {
         public GameObject GetTemplate();
-        public Renderer GetRenderer(GameObject gameObject);
-        public Animator GetAnimator(GameObject gameObject);
+        public Renderer UpdateRenderer(GameObject gameObject);
+        public Animator UpdateAnimator(GameObject gameObject);
     }
 }

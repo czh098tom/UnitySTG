@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.Mathematics.FixedPoint;
+using UnityEngine;
 
 namespace UnitySTG.Abstractions
 {
     public class LuaSTGObject : IDisposable
     {
         private readonly GameObjectController _controller;
+        public ILevelServiceProvider LevelServiceProvider { get; }
+
         public bool Disposed { get; private set; } = false;
 
         #region xy
@@ -230,10 +233,20 @@ namespace UnitySTG.Abstractions
             }
         }
 
+        public Animator Animator
+        {
+            get
+            {
+                ThrowIfDead();
+                return _controller.Animator;
+            }
+        }
+
         public LuaSTGObject(ILevelServiceProvider levelServiceProvider)
         {
             _controller = levelServiceProvider.Pool.Allocate();
             _controller._luaSTGObject = this;
+            LevelServiceProvider = levelServiceProvider;
         }
 
         internal protected virtual void OnFrame()
@@ -265,8 +278,21 @@ namespace UnitySTG.Abstractions
         public void Dispose()
         {
             if (!IsValid()) return;
-            _controller.Del();
+            Dispose(true);
             Disposed = true;
+        }
+
+        ~LuaSTGObject()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _controller.Del();
+            }
         }
 
         private void ThrowIfDead()

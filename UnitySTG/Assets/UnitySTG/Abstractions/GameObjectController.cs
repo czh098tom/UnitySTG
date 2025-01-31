@@ -34,6 +34,8 @@ namespace UnitySTG.Abstractions
         internal GameObjectController UpdatePrev { get; set; }
         internal bool InUpdateList { get; set; }
 
+        internal Animator Animator => _animator;
+
         internal int ObjectID
         {
             get => _objectID;
@@ -249,8 +251,8 @@ namespace UnitySTG.Abstractions
                     _currentStyleTemplate = instance;
                     _currentStyleTemplate.SetActive(true);
                 }
-                _animator = @new.GetAnimator(_currentStyleTemplate);
-                SetRenderer(@new.GetRenderer(_currentStyleTemplate));
+                _animator = @new.UpdateAnimator(_currentStyleTemplate);
+                SetRenderer(@new.UpdateRenderer(_currentStyleTemplate));
             }
             else
             {
@@ -341,6 +343,7 @@ namespace UnitySTG.Abstractions
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
+            if (_levelServiceProvider == null) return;
             var desc = _levelServiceProvider.Pool.ColliderGizmoDescriptor;
             if (desc != null && desc.Info.TryGetValue(_group, out var info))
             {
