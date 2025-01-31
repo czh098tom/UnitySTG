@@ -10,29 +10,29 @@ namespace UnitySTG.THSTG.Stage
 {
     public class PauseMenuController : MonoBehaviour
     {
-        [SerializeField] private PauseController pauseController;
-        [SerializeField] private GameObject pauseMenu;
-        [SerializeField] private Button unpauseButton;
+        [SerializeField] private PauseController _pauseController;
+        [SerializeField] private GameObject _pauseMenu;
+        [SerializeField] private Button _unpauseButton;
 
         private void Start()
         {
-            unpauseButton.onClick.AddListener(() =>
+            _unpauseButton.onClick.AddListener(() =>
             {
-                pauseController.IsPause = false;
+                _pauseController.IsPause = false;
             });
         }
 
         private void Update()
         {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape) && !pauseController.IsPause)
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape) && !_pauseController.IsPause)
             {
-                pauseController.IsPause = true;
+                _pauseController.IsPause = true;
             }
         }
 
         public void TogglePauseMenu(bool isPause)
         {
-            pauseMenu.gameObject.SetActive(isPause);
+            _pauseMenu.gameObject.SetActive(isPause);
         }
     }
 }

@@ -36,11 +36,11 @@ namespace UnitySTG.THSTG.Stage
             public void Dispose()
             {
                 OnTimeScaleChanged = null;
-                timeScaleController.timeScaleHandles.Remove(this);
+                timeScaleController._timeScaleHandles.Remove(this);
             }
         }
 
-        private readonly List<ITimeScaleHandle> timeScaleHandles = new();
+        private readonly List<ITimeScaleHandle> _timeScaleHandles = new();
 
         private void Awake()
         {
@@ -51,16 +51,16 @@ namespace UnitySTG.THSTG.Stage
         {
             var handle = new Handle(this);
             handle.OnTimeScaleChanged += (o, e) => UpdateTimeScale();
-            timeScaleHandles.Add(handle);
+            _timeScaleHandles.Add(handle);
             return handle;
         }
 
         private void UpdateTimeScale()
         {
             fp scale = 1.0M;
-            for (var i = 0; i < timeScaleHandles.Count; i++)
+            for (var i = 0; i < _timeScaleHandles.Count; i++)
             {
-                var handle = timeScaleHandles[i];
+                var handle = _timeScaleHandles[i];
                 scale *= handle.TimeScale;
             }
             Time.timeScale = (float)scale;

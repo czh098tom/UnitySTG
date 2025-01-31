@@ -11,30 +11,30 @@ namespace UnitySTG.THSTG.Stage
 {
     public class PauseController : MonoBehaviour, IStageInitializationCallback
     {
-        [SerializeField] private UnityEvent<bool> onPauseStateChanged;
+        [SerializeField] private UnityEvent<bool> _onPauseStateChanged;
 
-        private TimeScaleController timeScaleController;
-        private ITimeScaleHandle timeScaleHandle;
+        private TimeScaleController _timeScaleController;
+        private ITimeScaleHandle _timeScaleHandle;
 
-        private bool isPause = false;
+        private bool _isPause = false;
         public bool IsPause
         {
-            get => isPause;
+            get => _isPause;
             set
             {
-                if (isPause != value)
+                if (_isPause != value)
                 {
-                    isPause = value;
-                    timeScaleHandle.TimeScale = value ? 0 : 1;
-                    onPauseStateChanged?.Invoke(value);
+                    _isPause = value;
+                    _timeScaleHandle.TimeScale = value ? 0 : 1;
+                    _onPauseStateChanged?.Invoke(value);
                 }
             }
         }
 
         public void OnInit(ILevelServiceProvider levelServiceProvider)
         {
-            timeScaleController = levelServiceProvider.GetService<TimeScaleController>();
-            timeScaleHandle = timeScaleController.GetTimeScaleHandle();
+            _timeScaleController = levelServiceProvider.GetService<TimeScaleController>();
+            _timeScaleHandle = _timeScaleController.GetTimeScaleHandle();
         }
     }
 }

@@ -586,9 +586,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4905d93b65bac4b4fbbbcc136187ebba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseController: {fileID: 734622783}
-  pauseMenu: {fileID: 1360169258}
-  unpauseButton: {fileID: 96800472}
+  _pauseController: {fileID: 734622783}
+  _pauseMenu: {fileID: 1360169258}
+  _unpauseButton: {fileID: 96800472}
 --- !u!114 &734622783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -601,7 +601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 065ba760d1b290444ad15f9627225835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onPauseStateChanged:
+  _onPauseStateChanged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 734622782}
