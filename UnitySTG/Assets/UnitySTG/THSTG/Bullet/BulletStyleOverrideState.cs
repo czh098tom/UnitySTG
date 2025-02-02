@@ -44,21 +44,21 @@ namespace UnitySTG.THSTG.Bullet
 
             private class DummyObjectFollow : LuaSTGObject
             {
-                private readonly BulletController _controller;
+                private readonly Bullet _bullet;
 
-                public DummyObjectFollow(ILevelServiceProvider levelServiceProvider, BulletController controller, IObjectStyle style) : base(levelServiceProvider)
+                public DummyObjectFollow(ILevelServiceProvider levelServiceProvider, Bullet bullet, IObjectStyle style) : base(levelServiceProvider)
                 {
                     Style = style;
-                    _controller = controller;
+                    _bullet = bullet;
                 }
 
                 protected override void OnFrame()
                 {
                     base.OnFrame();
-                    if (_controller.LuaSTGObject.IsValid())
+                    if (_bullet.IsValid())
                     {
-                        X = _controller.LuaSTGObject.X;
-                        Y = _controller.LuaSTGObject.Y;
+                        X = _bullet.X;
+                        Y = _bullet.Y;
                     }
                     else
                     {
@@ -69,7 +69,7 @@ namespace UnitySTG.THSTG.Bullet
 
             private readonly LuaSTGObject _luaSTGObject;
 
-            public Disposable(ILevelServiceProvider levelServiceProvider, BulletController controller, BulletStyleOverrideState state)
+            public Disposable(ILevelServiceProvider levelServiceProvider, Bullet bullet, BulletStyleOverrideState state)
             {
                 if (!state._syncOriginalMovement)
                 {
@@ -77,7 +77,7 @@ namespace UnitySTG.THSTG.Bullet
                 }
                 else
                 {
-                    _luaSTGObject = new DummyObjectFollow(levelServiceProvider, controller, state._overrideStyle);
+                    _luaSTGObject = new DummyObjectFollow(levelServiceProvider, bullet, state._overrideStyle);
                 }
             }
 
@@ -92,9 +92,9 @@ namespace UnitySTG.THSTG.Bullet
         [SerializeField] private bool _keepForDuration;
         [SerializeField] private int _durationFrames;
 
-        public IDisposable OnIntoState(ILevelServiceProvider levelServiceProvider, BulletController controller)
+        public IDisposable OnIntoState(ILevelServiceProvider levelServiceProvider, Bullet bullet)
         {
-            return new Disposable(levelServiceProvider, controller, this);
+            return new Disposable(levelServiceProvider, bullet, this);
         }
 
         public int? GetDuration()

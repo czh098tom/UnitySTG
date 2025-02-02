@@ -40,9 +40,8 @@ namespace UnitySTG.Test
                     await LuaTask.Delay(5);
                     for (int j = 0; j < 60; j++)
                     {
-                        var obj = new BulletBase(levelServiceProvider);
-                        var ctrl = obj.AddComponent<BulletController>();
-                        ctrl.SetBulletStyleSheet(style);
+                        var obj = new Bullet(levelServiceProvider);
+                        obj.SetBulletStyleSheet(style);
                         obj.SetV2(3, j * 6 + i * 6 * 0.618M);
                     }
                     i++;

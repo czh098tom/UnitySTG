@@ -11,7 +11,7 @@ using UnitySTG.Abstractions;
 
 namespace UnitySTG.THSTG.Bullet
 {
-    public class BulletController : ComponentBase
+    public class Bullet : LuaSTGObject
     {
         private BulletState _state;
         private int _timer = 0;
@@ -19,11 +19,20 @@ namespace UnitySTG.THSTG.Bullet
         private IDisposable _currentDisposable;
         private IBulletStyleSheet _currentStyleSheet;
 
+        public Bullet(ILevelServiceProvider levelServiceProvider) : base(levelServiceProvider)
+        {
+            Group = BuiltInGroup.GROUP_ENEMY_BULLET;
+            A = 4M;
+            B = 4M;
+
+            Layer = BuiltInLayer.LAYER_ENEMY_BULLET;
+        }
+
         public void SetBulletStyleSheet(IBulletStyleSheet bulletStyleSheet)
         {
-            LuaSTGObject.Style = bulletStyleSheet.BaseStyle;
-            LuaSTGObject.A = (fp)bulletStyleSheet.A;
-            LuaSTGObject.B = (fp)bulletStyleSheet.B;
+            Style = bulletStyleSheet.BaseStyle;
+            A = (fp)bulletStyleSheet.A;
+            B = (fp)bulletStyleSheet.B;
 
             _currentStyleSheet = bulletStyleSheet;
             var substate = _state switch
@@ -38,27 +47,17 @@ namespace UnitySTG.THSTG.Bullet
         private void ChangeSubState(IBulletStyleSubState substate)
         {
             _currentDisposable?.Dispose();
-            _currentDisposable = substate.OnIntoState(LuaSTGObject.LevelServiceProvider, this);
+            _currentDisposable = substate.OnIntoState(LevelServiceProvider, this);
             _scheduledTimer = substate.GetDuration();
             _timer = 0;
         }
 
         internal void SetAnimatorVariable(int stateHash)
         {
-            LuaSTGObject.Animator.SetTrigger(stateHash);
+            Animator.SetTrigger(stateHash);
         }
 
-        public override void OnAttach()
-        {
-            base.OnAttach();
-            LuaSTGObject.Group = BuiltInGroup.GROUP_ENEMY_BULLET;
-            LuaSTGObject.A = 4M;
-            LuaSTGObject.B = 4M;
-
-            LuaSTGObject.Layer = BuiltInLayer.LAYER_ENEMY_BULLET;
-        }
-
-        public override void OnFrame()
+        protected override void OnFrame()
         {
             base.OnFrame();
             if (_currentStyleSheet == null) return;
@@ -73,7 +72,7 @@ namespace UnitySTG.THSTG.Bullet
                     }
                     else if (_state == BulletState.Dead || _state == BulletState.DeadInCreate)
                     {
-                        LuaSTGObject.Dispose();
+                        Dispose();
                     }
                     else
                     {
@@ -91,7 +90,7 @@ namespace UnitySTG.THSTG.Bullet
             }
         }
 
-        public override void OnDel()
+        protected override void OnDel()
         {
             base.OnDel();
             if (_currentStyleSheet == null) return;

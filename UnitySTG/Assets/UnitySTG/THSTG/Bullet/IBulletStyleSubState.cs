@@ -10,7 +10,7 @@ namespace UnitySTG.THSTG.Bullet
 {
     public interface IBulletStyleSubState
     {
-        public IDisposable OnIntoState(ILevelServiceProvider levelServiceProvider, BulletController controller);
+        public IDisposable OnIntoState(ILevelServiceProvider levelServiceProvider, Bullet controller);
         public int? GetDuration();
     }
 }

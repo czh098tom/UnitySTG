@@ -21,7 +21,7 @@ namespace UnitySTG.THSTG.Bullet
             return _useIndependentStyle ? _independentStyleInfo.GetDuration() : _animatorInfo.GetDuration();
         }
 
-        public IDisposable OnIntoState(ILevelServiceProvider levelServiceProvider, BulletController controller)
+        public IDisposable OnIntoState(ILevelServiceProvider levelServiceProvider, Bullet controller)
         {
             return _useIndependentStyle ?
                 _independentStyleInfo.OnIntoState(levelServiceProvider, controller) :
