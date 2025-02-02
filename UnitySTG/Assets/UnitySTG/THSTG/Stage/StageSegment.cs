@@ -12,7 +12,9 @@ namespace UnitySTG.THSTG.Stage
 {
     public class StageSegment : StageSegmentBase
     {
-        public override UniTask<IResourceDictionary> LoadResources(IProgress<float> progress, CancellationToken cancellationToken)
+        public override float EstimatedLoadingTaskWeight => 0;
+
+        public override UniTask<IResourceDictionary> LoadResources(IProgress<ResourceLoadInfo> progress, CancellationToken cancellationToken)
         {
             return UniTask.FromResult<IResourceDictionary>(ResourceDictionary.Empty);
         }

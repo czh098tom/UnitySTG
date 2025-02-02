@@ -24,7 +24,7 @@ namespace UnitySTG.Abstractions
             _createStageFactory = createStageFactory;
         }
 
-        public async UniTask LoadAndStartGame(StageDescriptor stageDescriptor, IProgress<float> progress, CancellationToken cancellationToken)
+        public async UniTask LoadAndStartGame(StageDescriptor stageDescriptor, IProgress<ResourceLoadInfo> progress, CancellationToken cancellationToken)
         {
             _stageDescriptor = stageDescriptor;
             OnStartLoading?.Invoke(this, stageDescriptor);
