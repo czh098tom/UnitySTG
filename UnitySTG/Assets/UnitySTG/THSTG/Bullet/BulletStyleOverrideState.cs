@@ -44,9 +44,9 @@ namespace UnitySTG.THSTG.Bullet
 
             private class DummyObjectFollow : LuaSTGObject
             {
-                private readonly Bullet _bullet;
+                private readonly BulletObject _bullet;
 
-                public DummyObjectFollow(ILevelServiceProvider levelServiceProvider, Bullet bullet, IObjectStyle style) : base(levelServiceProvider)
+                public DummyObjectFollow(ILevelServiceProvider levelServiceProvider, BulletObject bullet, IObjectStyle style) : base(levelServiceProvider)
                 {
                     Style = style;
                     _bullet = bullet;
@@ -69,7 +69,7 @@ namespace UnitySTG.THSTG.Bullet
 
             private readonly LuaSTGObject _luaSTGObject;
 
-            public Disposable(ILevelServiceProvider levelServiceProvider, Bullet bullet, BulletStyleOverrideState state)
+            public Disposable(ILevelServiceProvider levelServiceProvider, BulletObject bullet, BulletStyleOverrideState state)
             {
                 if (!state._syncOriginalMovement)
                 {
@@ -92,7 +92,7 @@ namespace UnitySTG.THSTG.Bullet
         [SerializeField] private bool _keepForDuration;
         [SerializeField] private int _durationFrames;
 
-        public IDisposable OnIntoState(ILevelServiceProvider levelServiceProvider, Bullet bullet)
+        public IDisposable OnIntoState(ILevelServiceProvider levelServiceProvider, BulletObject bullet)
         {
             return new Disposable(levelServiceProvider, bullet, this);
         }

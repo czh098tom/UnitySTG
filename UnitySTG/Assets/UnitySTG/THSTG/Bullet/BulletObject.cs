@@ -11,7 +11,7 @@ using UnitySTG.Abstractions;
 
 namespace UnitySTG.THSTG.Bullet
 {
-    public class Bullet : LuaSTGObject
+    public class BulletObject : LuaSTGObject
     {
         private BulletState _state;
         private int _timer = 0;
@@ -19,7 +19,7 @@ namespace UnitySTG.THSTG.Bullet
         private IDisposable _currentDisposable;
         private IBulletStyleSheet _currentStyleSheet;
 
-        public Bullet(ILevelServiceProvider levelServiceProvider) : base(levelServiceProvider)
+        public BulletObject(ILevelServiceProvider levelServiceProvider) : base(levelServiceProvider)
         {
             Group = BuiltInGroup.GROUP_ENEMY_BULLET;
             A = 4M;

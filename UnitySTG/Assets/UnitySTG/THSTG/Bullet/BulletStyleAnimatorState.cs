@@ -28,7 +28,7 @@ namespace UnitySTG.THSTG.Bullet
             _triggerHash = Animator.StringToHash(_triggerName);
         }
 
-        public IDisposable OnIntoState(ILevelServiceProvider levelServiceProvider, Bullet controller)
+        public IDisposable OnIntoState(ILevelServiceProvider levelServiceProvider, BulletObject controller)
         {
             controller.SetAnimatorVariable(_triggerHash);
             return null;

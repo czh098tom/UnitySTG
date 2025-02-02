@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 using Unity.Mathematics.FixedPoint;
-using UnityEngine.UIElements;
-using static UnityEditor.PlayerSettings;
 
 namespace UnitySTG.Abstractions
 {
