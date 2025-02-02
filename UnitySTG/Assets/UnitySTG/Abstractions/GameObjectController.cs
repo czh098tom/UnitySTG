@@ -236,6 +236,7 @@ namespace UnitySTG.Abstractions
         {
             if (_currentStyleTemplate != null)
             {
+                original?.ResetTemplate(_currentStyleTemplate, _renderer, _animator);
                 _currentStyleTemplate.SetActive(false);
             }
             if (@new != null)

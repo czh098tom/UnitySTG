@@ -18,7 +18,7 @@ namespace UnitySTG.Test
 {
     public class Test : MonoBehaviour
     {
-        [SerializeField] private DefaultStyle style;
+        [SerializeField] private SOBulletStyleSheet style;
 
         void Start()
         {
@@ -40,10 +40,9 @@ namespace UnitySTG.Test
                     await LuaTask.Delay(5);
                     for (int j = 0; j < 60; j++)
                     {
-                        var obj = new BulletBase(levelServiceProvider)
-                        {
-                            Style = style
-                        };
+                        var obj = new BulletBase(levelServiceProvider);
+                        var ctrl = obj.AddComponent<BulletController>();
+                        ctrl.SetBulletStyleSheet(style);
                         obj.SetV2(3, j * 6 + i * 6 * 0.618M);
                     }
                     i++;
@@ -75,6 +74,7 @@ namespace UnitySTG.Test
                 }))
                 .ModifyStageFrame(frame => frame.AttachDefault());
 
+            lifeCycle.OnLoadingFailed += (o, e) => Debug.LogException(e);
             lifeCycle.LoadAndStartGame(factory.Create(), null, default).SuppressCancellationThrow().Forget();
         }
     }

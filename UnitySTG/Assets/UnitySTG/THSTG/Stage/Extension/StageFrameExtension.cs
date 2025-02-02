@@ -13,14 +13,16 @@ namespace UnitySTG.THSTG.Stage.Extension
     {
         public static IStageFrameCallback AttachDefault(this IStageFrameCallback callback)
         {
-            return callback
-                .AppendUpdateXY()
-                .AppendUpdateRot()
-                .AppendDoFrame()
-                .AppendDoCollisionCheck()
-                .AppendCheckBounds()
-                .AppendPerformKill()
-                .AppendTryCompressLayerID();
+            return callback.Append(s =>
+            {
+                s.Pool.UpdateXY();
+                s.Pool.UpdateRot();
+                s.Pool.DoFrame();
+                s.Pool.CollisionCheck();
+                s.Pool.CheckBounds();
+                s.Pool.PerformKill();
+                s.Pool.TryCompressObjectID();
+            });
         }
     }
 }

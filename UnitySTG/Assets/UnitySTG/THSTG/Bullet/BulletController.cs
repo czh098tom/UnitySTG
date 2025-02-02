@@ -19,15 +19,6 @@ namespace UnitySTG.THSTG.Bullet
         private IDisposable _currentDisposable;
         private IBulletStyleSheet _currentStyleSheet;
 
-        public BulletController(LuaSTGObject luaSTGObject) : base(luaSTGObject)
-        {
-            LuaSTGObject.Group = BuiltInGroup.GROUP_ENEMY_BULLET;
-            LuaSTGObject.A = 4M;
-            LuaSTGObject.B = 4M;
-
-            LuaSTGObject.Layer = BuiltInLayer.LAYER_ENEMY_BULLET;
-        }
-
         public void SetBulletStyleSheet(IBulletStyleSheet bulletStyleSheet)
         {
             LuaSTGObject.Style = bulletStyleSheet.BaseStyle;
@@ -57,6 +48,16 @@ namespace UnitySTG.THSTG.Bullet
             LuaSTGObject.Animator.SetTrigger(stateHash);
         }
 
+        public override void OnAttach()
+        {
+            base.OnAttach();
+            LuaSTGObject.Group = BuiltInGroup.GROUP_ENEMY_BULLET;
+            LuaSTGObject.A = 4M;
+            LuaSTGObject.B = 4M;
+
+            LuaSTGObject.Layer = BuiltInLayer.LAYER_ENEMY_BULLET;
+        }
+
         public override void OnFrame()
         {
             base.OnFrame();
@@ -74,9 +75,20 @@ namespace UnitySTG.THSTG.Bullet
                     {
                         LuaSTGObject.Dispose();
                     }
+                    else
+                    {
+                        _timer++;
+                    }
+                }
+                else
+                {
+                    _timer++;
                 }
             }
-            _timer++;
+            else
+            {
+                _timer++;
+            }
         }
 
         public override void OnDel()

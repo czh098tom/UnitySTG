@@ -10,6 +10,7 @@ namespace UnitySTG.Abstractions.Style
     public abstract class SOObjectStyle : ScriptableObject, IObjectStyle
     {
         public abstract GameObject GetTemplate();
+        public abstract void ResetTemplate(GameObject templateInstance, Renderer renderer, Animator animator);
         public abstract Animator UpdateAnimator(GameObject gameObject);
         public abstract Renderer UpdateRenderer(GameObject gameObject);
     }

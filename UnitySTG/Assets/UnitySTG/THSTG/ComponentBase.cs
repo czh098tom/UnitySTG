@@ -10,11 +10,10 @@ namespace UnitySTG.THSTG
 {
     public class ComponentBase : IComponent
     {
-        public LuaSTGObject LuaSTGObject { get; private set; }
+        public LuaSTGObject LuaSTGObject { get; set; }
 
-        public ComponentBase(LuaSTGObject luaSTGObject)
+        public virtual void OnAttach()
         {
-            LuaSTGObject = luaSTGObject;
         }
 
         public virtual void OnColli(LuaSTGObject other)

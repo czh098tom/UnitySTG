@@ -16,9 +16,13 @@ namespace UnitySTG.THSTG
         {
         }
 
-        public void AddComponent(IComponent component)
+        public T AddComponent<T>() where T : IComponent, new()
         {
+            var component = new T();
             _components.Add(component);
+            component.LuaSTGObject = this;
+            component.OnAttach();
+            return component;
         }
 
         public void RemoveComponent(IComponent component)

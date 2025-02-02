@@ -16,6 +16,12 @@ namespace UnitySTG.Abstractions.Style
             return _template;
         }
 
+        public override void ResetTemplate(GameObject templateInstance, Renderer renderer, Animator animator)
+        {
+            templateInstance.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            templateInstance.transform.localScale = Vector3.one;
+        }
+
         public override Animator UpdateAnimator(GameObject gameObject)
         {
             var anim = gameObject.GetComponent<Animator>();

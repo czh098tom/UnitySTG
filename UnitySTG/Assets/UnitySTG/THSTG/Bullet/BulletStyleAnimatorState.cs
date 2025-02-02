@@ -11,7 +11,7 @@ using UnitySTG.Abstractions;
 namespace UnitySTG.THSTG.Bullet
 {
     [Serializable]
-    public class BulletStyleAnimatorState : IBulletStyleSubState, IDeserializationCallback
+    public class BulletStyleAnimatorState : IBulletStyleSubState, ISerializationCallbackReceiver
     {
         [SerializeField] private string _triggerName;
         [SerializeField] private bool _keepForDuration;
@@ -19,7 +19,11 @@ namespace UnitySTG.THSTG.Bullet
 
         private int _triggerHash;
 
-        public void OnDeserialization(object sender)
+        public void OnBeforeSerialize()
+        {
+        }
+
+        public void OnAfterDeserialize()
         {
             _triggerHash = Animator.StringToHash(_triggerName);
         }
