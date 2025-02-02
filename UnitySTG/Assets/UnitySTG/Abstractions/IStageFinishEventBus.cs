@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace UnitySTG.Abstractions
 {
-    public interface IStageFinishCallback
+    public interface IStageFinishEventBus
     {
-        public void OnFinish(ILevelServiceProvider levelServiceProvider);
+        public event EventHandler OnFinish;
+        public void RaiseOnFinish(object sender, EventArgs args);
     }
 }

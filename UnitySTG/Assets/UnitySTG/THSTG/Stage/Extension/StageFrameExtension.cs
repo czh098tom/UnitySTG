@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using UnitySTG.Abstractions;
-using UnitySTG.Abstractions.ObjectPoolExtension;
+using UnitySTG.Abstractions.Extension;
 
 namespace UnitySTG.THSTG.Stage.Extension
 {

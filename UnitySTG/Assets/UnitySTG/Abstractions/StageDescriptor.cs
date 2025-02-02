@@ -10,5 +10,5 @@ namespace UnitySTG.Abstractions
         IStageResourceLoadingCallback StageResourceLoadingCallback,
         IStageInitializationCallback StageInitializationCallback,
         IStageFrameCallback StageFrameCallback,
-        IStageFinishCallback StageFinishCallback);
+        IStageFinishEventBus StageFinishCallback);
 }

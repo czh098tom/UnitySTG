@@ -8,12 +8,13 @@ using Cysharp.Threading.Tasks;
 
 namespace UnitySTG.Abstractions
 {
-    public class LuaSTGLifeCycleService : IStageFinishCallback
+    public class LuaSTGLifeCycleService
     {
         private readonly Func<CancellationToken, UniTask> _createStageFactory;
 
         public event EventHandler<StageDescriptor> OnStartLoading;
         public event EventHandler<StageDescriptor> OnLoadingSuccess;
+        public event EventHandler<ILevelServiceProvider> OnFinish;
         public event EventHandler<Exception> OnLoadingFailed;
 
         private StageDescriptor _stageDescriptor;
@@ -33,7 +34,7 @@ namespace UnitySTG.Abstractions
                 await _createStageFactory(cancellationToken);
                 OnLoadingSuccess?.Invoke(this, stageDescriptor);
                 var controller = UnityEngine.Object.FindFirstObjectByType<LevelController>();
-                controller.LifeCycle = stageDescriptor.StageFinishCallback;
+                stageDescriptor.StageFinishCallback.OnFinish += (o, e) => OnFinish?.Invoke(o, controller);
                 stageDescriptor.StageInitializationCallback.OnInit(controller);
                 controller.SetStage(stageDescriptor.StageFrameCallback);
             }
@@ -41,11 +42,6 @@ namespace UnitySTG.Abstractions
             {
                 OnLoadingFailed?.Invoke(this, e);
             }
-        }
-
-        public void OnFinish(ILevelServiceProvider levelServiceProvider)
-        {
-            _stageDescriptor = null;
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UnitySTG.Abstractions
 {
-    public interface IResourceDictionary
+    public interface IResourceDictionary : IReadOnlyDictionary<string, object>
     {
     }
 }

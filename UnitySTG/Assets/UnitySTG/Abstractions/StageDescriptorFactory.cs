@@ -11,7 +11,7 @@ namespace UnitySTG.Abstractions
         private readonly List<Func<IStageResourceLoadingCallback, IStageResourceLoadingCallback>> _modifyStageResourceLoading = new();
         private readonly List<Func<IStageInitializationCallback, IStageInitializationCallback>> _modifyStageInit = new();
         private readonly List<Func<IStageFrameCallback, IStageFrameCallback>> _modifyStageFrame = new();
-        private readonly List<Func<IStageFinishCallback, IStageFinishCallback>> _modifyStageFinish = new();
+        private readonly List<Func<IStageFinishEventBus, IStageFinishEventBus>> _modifyStageFinish = new();
 
         public StageDescriptorFactory ModifyStageResourceLoading(Func<IStageResourceLoadingCallback, IStageResourceLoadingCallback> func)
         {
@@ -31,7 +31,7 @@ namespace UnitySTG.Abstractions
             return this;
         }
 
-        public StageDescriptorFactory ModifyStageFinish(Func<IStageFinishCallback, IStageFinishCallback> func)
+        public StageDescriptorFactory ModifyStageFinish(Func<IStageFinishEventBus, IStageFinishEventBus> func)
         {
             _modifyStageFinish.Add(func);
             return this;
@@ -52,8 +52,18 @@ namespace UnitySTG.Abstractions
             }
 
             var load = StageResourceLoadingCallback.Empty;
+            foreach (var func in _modifyStageResourceLoading)
+            {
+                load = func(load);
+            }
 
-            return new StageDescriptor(load, init, frame, null);
+            IStageFinishEventBus finish = new StageFinishEventBus();
+            foreach (var func in _modifyStageFinish)
+            {
+                finish = func(finish);
+            }
+
+            return new StageDescriptor(load, init, frame, finish);
         }
     }
 }

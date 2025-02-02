@@ -15,8 +15,6 @@ namespace UnitySTG.Abstractions
 
         public GameObjectPool Pool => _pool;
 
-        public IStageFinishCallback LifeCycle { get; internal set; }
-
         public object GetService(Type serviceType)
         {
             return GetComponent(serviceType);

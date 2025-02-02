@@ -6,8 +6,5 @@ using System.Threading.Tasks;
 
 namespace UnitySTG.Abstractions
 {
-    public interface ILevelServiceProvider : IServiceProvider
-    {
-        public GameObjectPool Pool { get; }
-    }
+    public record ResourceLoadInfo(object Item, float Progress = 1f);
 }

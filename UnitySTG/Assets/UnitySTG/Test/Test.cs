@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 
 using UnitySTG.Abstractions;
 using UnitySTG.Abstractions.Style;
-using UnitySTG.Abstractions.ObjectPoolExtension;
+using UnitySTG.Abstractions.Extension;
 using UnitySTG.THSTG;
 using UnitySTG.THSTG.Bullet;
 using UnitySTG.THSTG.Input;

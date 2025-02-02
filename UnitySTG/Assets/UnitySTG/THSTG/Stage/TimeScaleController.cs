@@ -22,7 +22,7 @@ namespace UnitySTG.THSTG.Stage
                 set
                 {
                     _timeScale = value;
-                    OnTimeScaleChanged?.Invoke(this, null);
+                    OnTimeScaleChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
 

@@ -10,6 +10,7 @@ namespace UnitySTG.Abstractions
 {
     public interface IStageResourceLoadingCallback
     {
-        public UniTask<IResourceDictionary> LoadResources(IProgress<float> progress, CancellationToken cancellationToken);
+        public UniTask<IResourceDictionary> LoadResources(IProgress<ResourceLoadInfo> progress, CancellationToken cancellationToken);
+        public float EstimatedLoadingTaskWeight { get; }
     }
 }
