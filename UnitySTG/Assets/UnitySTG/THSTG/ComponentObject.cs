@@ -67,13 +67,13 @@ namespace UnitySTG.THSTG
             base.OnFrame();
         }
 
-        protected override void OnDel()
+        protected override void OnDestroy(DestroyEventArgs args)
         {
             for (int i = 0; i < _components.Count; i++)
             {
                 _components[i].Dispose();
             }
-            base.OnDel();
+            base.OnDestroy(args);
         }
     }
 }

@@ -72,7 +72,7 @@ namespace UnitySTG.THSTG.Bullet
                     }
                     else if (_state == BulletState.Dead || _state == BulletState.DeadInCreate)
                     {
-                        Dispose();
+                        Destroy(ManualDelEventArgs.Instance);
                     }
                     else
                     {
@@ -90,10 +90,11 @@ namespace UnitySTG.THSTG.Bullet
             }
         }
 
-        protected override void OnDel()
+        protected override void OnDestroy(DestroyEventArgs args)
         {
-            base.OnDel();
+            base.OnDestroy(args);
             if (_currentStyleSheet == null) return;
+            if (args is OutOfBoundDestroyEventArgs) return;
             if (_state == BulletState.Create)
             {
                 ChangeSubState(_currentStyleSheet.GetSubState(BulletState.DeadInCreate));

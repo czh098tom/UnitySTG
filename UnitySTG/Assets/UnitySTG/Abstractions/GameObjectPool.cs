@@ -214,7 +214,7 @@ namespace UnitySTG.Abstractions
                     }
                     if (l || r || b || t)
                     {
-                        controller.Del();
+                        controller.Destroy(OutOfBoundDestroyEventArgs.Instance);
                     }
                 }
             }

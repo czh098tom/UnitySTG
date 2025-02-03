@@ -16,7 +16,7 @@ MonoBehaviour:
   create:
     _useIndependentStyle: 0
     _animatorInfo:
-      _triggerName: 
+      _triggerName: preimg
       _keepForDuration: 1
       _durationFrames: 11
     _independentStyleInfo:

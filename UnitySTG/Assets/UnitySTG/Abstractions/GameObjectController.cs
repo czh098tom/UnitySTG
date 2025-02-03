@@ -310,10 +310,10 @@ namespace UnitySTG.Abstractions
             _luaSTGObject.OnFrame();
         }
 
-        public void Del()
+        public void Destroy(DestroyEventArgs args)
         {
             State = GameObjectState.Dying;
-            _luaSTGObject.OnDel();
+            _luaSTGObject.OnDestroy(args);
         }
 
         public void OnReturned()

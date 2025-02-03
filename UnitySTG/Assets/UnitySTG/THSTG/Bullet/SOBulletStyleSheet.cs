@@ -14,14 +14,14 @@ namespace UnitySTG.THSTG.Bullet
     [Serializable]
     public class SOBulletStyleSheet : ScriptableObject, IBulletStyleSheet
     {
+        [field: SerializeField] public float A { get; private set; } = 4;
+        [field: SerializeField] public float B { get; private set; } = 4;
+
         [SerializeField] private SOObjectStyle baseStyle;
         [SerializeField] private SOBulletStyleSelector create;
         [SerializeField] private SOBulletStyleSelector idle;
         [SerializeField] private SOBulletStyleSelector dead;
         [SerializeField] private SOBulletStyleSelector deadInCreate;
-
-        [field: SerializeField] public float A { get; private set; } = 4;
-        [field: SerializeField] public float B { get; private set; } = 4;
 
         IObjectStyle IBulletStyleSheet.BaseStyle => baseStyle;
 

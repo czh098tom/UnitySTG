@@ -23,7 +23,12 @@ namespace UnitySTG.THSTG.Stage
 
         public abstract void OnFrame(ILevelServiceProvider levelServiceProvider);
 
-        public void RaiseOnFinish(object sender, EventArgs args)
+        protected void RaiseSegmentFinish(object sender, EventArgs args)
+        {
+            OnFinish?.Invoke(this, EventArgs.Empty);
+        }
+
+        void IStageFinishEventBus.RaiseOnFinish(object sender, EventArgs args)
         {
             OnFinish?.Invoke(this, EventArgs.Empty);
         }

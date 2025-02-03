@@ -22,9 +22,12 @@ namespace UnitySTG.THSTG.Bullet
 
                 private int _timer;
 
-                public DummyObjectFixed(ILevelServiceProvider levelServiceProvider, IObjectStyle style, int? keepForDuration) : base(levelServiceProvider)
+                public DummyObjectFixed(ILevelServiceProvider levelServiceProvider, BulletObject bullet, IObjectStyle style, int? keepForDuration) : base(levelServiceProvider)
                 {
                     Style = style;
+                    X = bullet.X;
+                    Y = bullet.Y;
+                    Rot = bullet.Rot;
                     _keepForDuration = keepForDuration;
                 }
 
@@ -35,7 +38,7 @@ namespace UnitySTG.THSTG.Bullet
                     {
                         if (_timer >= _keepForDuration)
                         {
-                            Dispose();
+                            Destroy(ManualDelEventArgs.Instance);
                         }
                     }
                     _timer++;
@@ -62,7 +65,7 @@ namespace UnitySTG.THSTG.Bullet
                     }
                     else
                     {
-                        Dispose();
+                        Destroy(ManualDelEventArgs.Instance);
                     }
                 }
             }
@@ -73,7 +76,7 @@ namespace UnitySTG.THSTG.Bullet
             {
                 if (!state._syncOriginalMovement)
                 {
-                    _luaSTGObject = new DummyObjectFixed(levelServiceProvider, state._overrideStyle, state._keepForDuration ? state._durationFrames : null);
+                    _luaSTGObject = new DummyObjectFixed(levelServiceProvider, bullet, state._overrideStyle, state._keepForDuration ? state._durationFrames : null);
                 }
                 else
                 {
@@ -83,7 +86,7 @@ namespace UnitySTG.THSTG.Bullet
 
             public void Dispose()
             {
-                _luaSTGObject?.Dispose();
+                _luaSTGObject?.Destroy(ManualDelEventArgs.Instance);
             }
         }
 

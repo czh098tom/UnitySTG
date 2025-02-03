@@ -73,7 +73,7 @@ namespace UnitySTG.THSTG.Stage
             }
             else
             {
-                RaiseOnFinish(sender, e);
+                RaiseSegmentFinish(sender, e);
             }
         }
     }

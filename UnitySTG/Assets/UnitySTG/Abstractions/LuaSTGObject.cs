@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -254,7 +255,7 @@ namespace UnitySTG.Abstractions
 
         }
 
-        internal protected virtual void OnDel()
+        internal protected virtual void OnDestroy(DestroyEventArgs args)
         {
 
         }
@@ -275,23 +276,28 @@ namespace UnitySTG.Abstractions
             _controller.SetV2(speed, angle, setRotation);
         }
 
-        public void Dispose()
+        public void Destroy(ManualDelEventArgs eventArgs)
         {
             if (!IsValid()) return;
-            Dispose(true);
+            Dispose(eventArgs, true);
             Disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Destroy(ManualDelEventArgs.Instance);
         }
 
         ~LuaSTGObject()
         {
-            Dispose(false);
+            Dispose(ManualDelEventArgs.Instance, false);
         }
 
-        protected virtual void Dispose(bool disposing)
+        protected virtual void Dispose(ManualDelEventArgs args, bool disposing)
         {
             if (disposing)
             {
-                _controller.Del();
+                _controller.Destroy(args);
             }
         }
 
